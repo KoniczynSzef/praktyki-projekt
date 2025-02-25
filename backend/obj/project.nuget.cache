@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "H5jGx1KScBg=",
+  "success": true,
+  "projectFilePath": "/home/k0niczyn/School/praktyki-projekt/backend/backend.csproj",
+  "expectedPackageFiles": [
+    "/home/k0niczyn/.nuget/packages/microsoft.aspnetcore.openapi/9.0.2/microsoft.aspnetcore.openapi.9.0.2.nupkg.sha512",
+    "/home/k0niczyn/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
