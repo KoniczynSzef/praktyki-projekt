@@ -35,3 +35,9 @@
 /home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
 /home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/System.Web.Cors.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/System.Net.Http.Formatting.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/System.Web.Http.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/System.Web.Http.Cors.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Newtonsoft.Json.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Newtonsoft.Json.Bson.dll

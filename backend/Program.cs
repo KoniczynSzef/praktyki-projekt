@@ -21,6 +21,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.Use((ctx, next) => 
+{
+    ctx.Response.Headers["Access-Control-Allow-Origin"] = "http://localhost:4200";
+    return next();
+});
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
