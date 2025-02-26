@@ -32,3 +32,6 @@
 /home/k0niczyn/School/praktyki-projekt/backend/obj/Debug/net9.0/backend.pdb
 /home/k0niczyn/School/praktyki-projekt/backend/obj/Debug/net9.0/backend.genruntimeconfig.cache
 /home/k0niczyn/School/praktyki-projekt/backend/obj/Debug/net9.0/ref/backend.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/k0niczyn/School/praktyki-projekt/backend/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
