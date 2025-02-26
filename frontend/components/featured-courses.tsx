@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { CourseCard } from "@/components/course-card"
-import { CourseCarousel } from "@/components/course-carousel"
-import { CourseSearch } from "@/components/course-search"
+import { useState } from "react";
+import { Course, CourseCard } from "@/components/course-card";
+import { CourseCarousel } from "@/components/course-carousel";
+import { CourseSearch } from "@/components/course-search";
 
-const allCourses = [
+const allCourses: Course[] = [
   {
     id: 1,
     title: "Web Development Bootcamp",
@@ -14,6 +14,8 @@ const allCourses = [
     category: "Programming",
     price: 99.99,
     featured: true,
+    startDate: "2025-03-01",
+    isRemote: true,
   },
   {
     id: 2,
@@ -23,6 +25,8 @@ const allCourses = [
     category: "Data",
     price: 89.99,
     featured: true,
+    startDate: "2025-03-15",
+    isRemote: true,
   },
   {
     id: 3,
@@ -31,6 +35,8 @@ const allCourses = [
     image: "/course-marketing.jpg",
     category: "Marketing",
     price: 79.99,
+    startDate: "2025-04-01",
+    isRemote: false,
   },
   {
     id: 4,
@@ -39,6 +45,8 @@ const allCourses = [
     image: "/course-mobile-dev.jpg",
     category: "Programming",
     price: 94.99,
+    startDate: "2025-04-10",
+    isRemote: true,
   },
   {
     id: 5,
@@ -48,24 +56,26 @@ const allCourses = [
     category: "Data",
     price: 109.99,
     featured: true,
+    startDate: "2025-05-01",
+    isRemote: true,
   },
-]
+];
 
 export function FeaturedCourses() {
-  const [filteredCourses, setFilteredCourses] = useState(allCourses)
+  const [filteredCourses, setFilteredCourses] = useState(allCourses);
 
   const handleSearch = (query: string) => {
-    const lowercaseQuery = query.toLowerCase()
+    const lowercaseQuery = query.toLowerCase();
     const filtered = allCourses.filter(
       (course) =>
         course.title.toLowerCase().includes(lowercaseQuery) ||
         course.description.toLowerCase().includes(lowercaseQuery) ||
         course.category.toLowerCase().includes(lowercaseQuery),
-    )
-    setFilteredCourses(filtered)
-  }
+    );
+    setFilteredCourses(filtered);
+  };
 
-  const featuredCourses = allCourses.filter((course) => course.featured)
+  const featuredCourses = allCourses.filter((course) => course.featured);
 
   return (
     <section className="py-20 sm:py-32">
@@ -75,7 +85,7 @@ export function FeaturedCourses() {
         </h2>
         <CourseCarousel courses={featuredCourses} />
         <div className="mt-12 flex justify-center">
-          <CourseSearch onSearch={handleSearch} />
+          <CourseSearch />
         </div>
         <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {filteredCourses.map((course) => (
@@ -84,6 +94,5 @@ export function FeaturedCourses() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

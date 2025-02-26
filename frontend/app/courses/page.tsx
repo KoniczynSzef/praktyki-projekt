@@ -1,6 +1,6 @@
-import { Header } from "@/components/header"
-import { CourseSearch } from "@/components/course-search"
-import { CourseCard } from "@/components/course-card"
+import { Header } from "@/components/header";
+import { CourseSearch } from "@/components/course-search";
+import { CourseCard } from "@/components/course-card";
 
 // This would typically come from a database or API
 const allCourses = [
@@ -57,7 +57,7 @@ const allCourses = [
     startDate: "2023-10-01",
     isRemote: true,
   },
-]
+];
 
 export default function CoursesPage() {
   return (
@@ -65,9 +65,7 @@ export default function CoursesPage() {
       <Header />
       <main className="container mx-auto px-4 py-8">
         <h1 className="mb-8 text-4xl font-bold">All Courses</h1>
-        <div className="mb-8">
-          <CourseSearch onSearch={() => {}} />
-        </div>
+        <div className="mb-8">{/* <CourseSearch onSearch={() => {}} /> */}</div>
         <div className="space-y-8">
           {allCourses.map((course) => (
             <CourseCard key={course.id} course={course} />
@@ -75,6 +73,5 @@ export default function CoursesPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-
