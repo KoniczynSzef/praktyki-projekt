@@ -1,7 +1,7 @@
 public interface ICourseService
 {
   Task<IEnumerable<Course>> GetAllCourses();
-  Task<Course?> GetCourseById(int id);
+  Task<Course> GetCourseById(int id);
 
   Task<IEnumerable<Course>> GetSuggestedCoursesByCourseId(int id);
   Task<IEnumerable<Course>> GetFeaturedCourses();
