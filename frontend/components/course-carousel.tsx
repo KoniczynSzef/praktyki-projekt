@@ -4,16 +4,8 @@ import { useState, useEffect, useCallback } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CourseCard } from "@/components/course-card"
+import { Course } from "@/app/types/course"
 
-interface Course {
-  id: number
-  title: string
-  description: string
-  image: string
-  category: string
-  price: number
-  featured?: boolean
-}
 
 interface CourseCarouselProps {
   courses: Course[]
@@ -43,7 +35,7 @@ export function CourseCarousel({ courses }: CourseCarouselProps) {
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {courses.map((course) => (
-            <div key={course.id} className="w-full flex-shrink-0">
+            <div key={course.Id} className="w-full flex-shrink-0">
               <CourseCard course={course} featured={true} />
             </div>
           ))}

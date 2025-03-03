@@ -1,40 +1,10 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
-// This would typically come from a database or API
-const featuredCourses = [
-  {
-    id: 1,
-    title: "Web Development Bootcamp",
-    description: "Master full-stack web development",
-    category: "Programming",
-    price: 99.99,
-    featured: true,
-    rank: 1,
-  },
-  {
-    id: 2,
-    title: "Data Science Fundamentals",
-    description: "Learn the basics of data analysis",
-    category: "Data",
-    price: 89.99,
-    featured: true,
-    rank: 2,
-  },
-  {
-    id: 5,
-    title: "Machine Learning Essentials",
-    description: "Dive into AI and machine learning",
-    category: "Data",
-    price: 109.99,
-    featured: true,
-    rank: 3,
-  },
-]
-
-function FeaturedCourseCard({ course, isTopRanked }: { course: (typeof featuredCourses)[0]; isTopRanked: boolean }) {
+function FeaturedCourseCard({ course, isTopRanked }) {
   return (
     <Card className={`flex flex-col ${isTopRanked ? "border-2 border-indigo-500 rounded-lg overflow-hidden" : ""}`}>
       <CardContent className="flex-grow p-6">
@@ -54,11 +24,32 @@ function FeaturedCourseCard({ course, isTopRanked }: { course: (typeof featuredC
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }
 
 export function CoursePreview() {
-  const sortedCourses = [...featuredCourses].sort((a, b) => a.rank - b.rank)
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCourses() {
+      try {
+        const response = await fetch("http://localhost:5181");
+        const data = await response.json();
+        const sortedCourses = data.sort((a, b) => a.rank - b.rank);
+        setCourses(sortedCourses);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchCourses();
+  }, []);
+
+  if (loading) {
+    return <p className="text-center text-gray-600">Loading courses...</p>;
+  }
 
   return (
     <section className="py-20 sm:py-32">
@@ -68,27 +59,27 @@ export function CoursePreview() {
         </h2>
         {/* Mobile Layout */}
         <div className="flex flex-col gap-6 md:hidden">
-          <div className="w-full">
-            <FeaturedCourseCard course={sortedCourses[0]} isTopRanked={true} />
-          </div>
-          <div className="w-full">
-            <FeaturedCourseCard course={sortedCourses[1]} isTopRanked={false} />
-          </div>
-          <div className="w-full">
-            <FeaturedCourseCard course={sortedCourses[2]} isTopRanked={false} />
-          </div>
+          {courses.map((course, index) => (
+            <div key={course.id} className="w-full">
+              <FeaturedCourseCard course={course} isTopRanked={index === 0} />
+            </div>
+          ))}
         </div>
         {/* Desktop Layout */}
         <div className="hidden md:flex justify-center items-end space-x-4">
-          <div className="w-1/3 transform translate-y-4">
-            <FeaturedCourseCard course={sortedCourses[1]} isTopRanked={false} />
-          </div>
-          <div className="w-1/3 z-10">
-            <FeaturedCourseCard course={sortedCourses[0]} isTopRanked={true} />
-          </div>
-          <div className="w-1/3 transform translate-y-8">
-            <FeaturedCourseCard course={sortedCourses[2]} isTopRanked={false} />
-          </div>
+          {courses.length >= 3 && (
+            <>
+              <div className="w-1/3 transform translate-y-4">
+                <FeaturedCourseCard course={courses[1]} isTopRanked={false} />
+              </div>
+              <div className="w-1/3 z-10">
+                <FeaturedCourseCard course={courses[0]} isTopRanked={true} />
+              </div>
+              <div className="w-1/3 transform translate-y-8">
+                <FeaturedCourseCard course={courses[2]} isTopRanked={false} />
+              </div>
+            </>
+          )}
         </div>
         <div className="mt-20 text-center">
           <Button asChild size="lg">
@@ -97,6 +88,5 @@ export function CoursePreview() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
