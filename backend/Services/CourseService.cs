@@ -13,7 +13,17 @@ public class CourseService : ICourseService
     return await db.Courses.ToListAsync();
   }
 
-  public Task<Course> GetCourseById(int id) => throw new NotImplementedException();
+  public async Task<Course> GetCourseById(int id)
+  {
+    var course = await db.Courses.FirstOrDefaultAsync(c => c.Id == id);
+
+    if (course == null)
+    {
+      throw new Exception("Course not found");
+    }
+
+    return course;
+  }
 
   public async Task<IEnumerable<Course>> GetSuggestedCoursesByCourseId(int id)
   {
@@ -38,7 +48,29 @@ public class CourseService : ICourseService
     return suggestedCourses;
   }
 
-  public Task<IEnumerable<Course>> GetFeaturedCourses() => throw new NotImplementedException();
+  public async Task<IEnumerable<Course>> GetFeaturedCourses()
+  {
+    Random random = new Random();
+    int max = await db.Courses.CountAsync();
+
+    List<Course> selectedCourses = new List<Course>();
+    var allCourses = await this.GetAllCourses();
+
+    List<int> indices = new List<int>();
+
+    while (indices.Count < 3)
+    {
+      int rand = random.Next(0, max);
+
+      if (!indices.Contains(rand))
+      {
+        indices.Add(rand);
+        selectedCourses.Add(allCourses.ElementAt(rand));
+      }
+    }
+
+    return selectedCourses;
+  }
 
   public Task<Course> CreateCourse(Course course) => throw new NotImplementedException();
   public Task<bool> SignUpForCourse(int id) => throw new NotImplementedException();
