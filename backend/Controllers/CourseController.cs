@@ -1,0 +1,118 @@
+using Microsoft.AspNetCore.Mvc;
+
+[ApiController]
+[Route("api/[controller]/[action]")]
+public class CourseController : ControllerBase
+{
+  private readonly ICourseService courseService;
+
+  public CourseController(ICourseService courseService)
+  {
+    this.courseService = courseService;
+  }
+
+  [HttpGet]
+  public async Task<IActionResult> GetAllCourses()
+  {
+    try
+    {
+      var courses = await courseService.GetAllCourses();
+      return Ok(courses);
+    }
+    catch (Exception)
+    {
+      return BadRequest();
+    }
+  }
+
+  [HttpGet("{id}")]
+  public async Task<IActionResult> GetCourseById(int id)
+  {
+    try
+    {
+      var course = await courseService.GetCourseById(id);
+      return Ok(course);
+    }
+    catch (Exception err)
+    {
+      return NotFound(err.Message);
+    }
+  }
+
+  [HttpGet("{id}/suggested")]
+  public async Task<IActionResult> GetSuggestedCoursesByCourseId(int id)
+  {
+    try
+    {
+      var courses = await courseService.GetSuggestedCoursesByCourseId(id);
+      return Ok(courses);
+    }
+    catch (Exception err)
+    {
+      return NotFound(err.Message);
+    }
+  }
+
+  [HttpGet("featured")]
+  public async Task<IActionResult> GetFeaturedCourses()
+  {
+    try
+    {
+      var courses = await courseService.GetFeaturedCourses();
+      return Ok(courses);
+    }
+    catch (Exception err)
+    {
+      return NotFound(err.Message);
+    }
+  }
+
+  [HttpPost]
+  public async Task<IActionResult> CreateCourse(CreateCourseDto courseDto)
+  {
+    try
+    {
+      var createdCourse = await courseService.CreateCourse(courseDto);
+      return CreatedAtAction(nameof(GetCourseById), new { Id = createdCourse.Id }, courseDto);
+    }
+    catch (Exception)
+    {
+      return BadRequest();
+    }
+  }
+
+  [HttpPost("{id}/signup")]
+  public async Task<IActionResult> SignUpForCourse(int id)
+  {
+    throw new NotImplementedException();
+  }
+
+  [HttpPut("{id}")]
+  public async Task<IActionResult> UpdateCourse(int id, UpdateCourseDto courseDto)
+  {
+    try
+    {
+      var updatedCourse = await courseService.UpdateCourse(id, courseDto);
+      return NoContent();
+    }
+    catch (Exception)
+    {
+      return NotFound("Did not find any course to update.");
+    }
+  }
+
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> DeleteCourse(int id)
+  {
+    try
+    {
+      var isSuccess = await courseService.DeleteCourse(id);
+      return NoContent();
+    }
+    catch (Exception)
+    {
+      return NotFound("Did not find any course to delete.");
+    }
+  }
+}
+

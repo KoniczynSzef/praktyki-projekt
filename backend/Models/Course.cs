@@ -17,6 +17,8 @@ public class Course
   public List<string> SyllabusElements { get; set; } = new List<string>();
   public string ImageURL { get; set; } = "";
 
+  public Course() { }
+
   public Course(CreateCourseDto course)
   {
     this.Name = course.Name;
