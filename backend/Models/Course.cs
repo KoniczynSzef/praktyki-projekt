@@ -16,5 +16,23 @@ public class Course
   public int SignedMembers { get; set; }
   public List<string> SyllabusElements { get; set; } = new List<string>();
   public string ImageURL { get; set; } = "";
+
+  public Course() { }
+
+  public Course(CreateCourseDto course)
+  {
+    this.Name = course.Name;
+    this.Description = course.Description;
+    this.Badge = course.Badge;
+    this.Price = course.Price;
+    this.StartDate = course.StartDate;
+    this.DurationInDays = course.DurationInDays;
+    this.Instructor = course.Instructor;
+    this.Level = course.Level;
+    this.MaxMembers = course.MaxMembers;
+    this.SignedMembers = course.SignedMembers;
+    this.SyllabusElements = course.SyllabusElements;
+    this.ImageURL = course.ImageURL;
+  }
 }
 
