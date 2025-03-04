@@ -76,7 +76,20 @@ public class CourseService : ICourseService
   public Task<bool> SignUpForCourse(int id) => throw new NotImplementedException();
 
   public Task<Course> UpdateCourse(int id, Course course) => throw new NotImplementedException();
-  public Task<bool> DeleteCourse(int id) => throw new NotImplementedException();
+  public async Task<bool> DeleteCourse(int id)
+  {
+    var course = await db.Courses.FindAsync(id);
+
+    if (course == null)
+    {
+      throw new Exception("Did not find any course to delete.");
+    }
+
+    db.Courses.Remove(course);
+    await db.SaveChangesAsync();
+
+    return true;
+  }
 }
 
 
