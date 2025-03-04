@@ -72,10 +72,45 @@ public class CourseService : ICourseService
     return selectedCourses;
   }
 
-  public Task<Course> CreateCourse(Course course) => throw new NotImplementedException();
+  public async Task<Course> CreateCourse(CreateCourseDto courseDto)
+  {
+    Course newCourse = new Course(courseDto);
+
+    await db.Courses.AddAsync(newCourse);
+    await db.SaveChangesAsync();
+
+    return newCourse;
+  }
+
   public Task<bool> SignUpForCourse(int id) => throw new NotImplementedException();
 
-  public Task<Course> UpdateCourse(int id, Course course) => throw new NotImplementedException();
+  public async Task<Course> UpdateCourse(int id, UpdateCourseDto courseDto)
+  {
+    var existingCourse = await db.Courses.FirstOrDefaultAsync(c => c.Id == id);
+
+    if (existingCourse == null)
+    {
+      throw new Exception("Course not found");
+    }
+
+    existingCourse.Name = courseDto.Name;
+    existingCourse.Description = courseDto.Description;
+    existingCourse.Badge = courseDto.Badge;
+    existingCourse.Price = courseDto.Price;
+    existingCourse.StartDate = courseDto.StartDate;
+    existingCourse.DurationInDays = courseDto.DurationInDays;
+    existingCourse.Instructor = courseDto.Instructor;
+    existingCourse.Level = courseDto.Level;
+    existingCourse.MaxMembers = courseDto.MaxMembers;
+    existingCourse.SignedMembers = courseDto.SignedMembers;
+    existingCourse.SyllabusElements = courseDto.SyllabusElements;
+    existingCourse.ImageURL = courseDto.ImageURL;
+
+    await db.SaveChangesAsync();
+
+    return existingCourse;
+  }
+
   public async Task<bool> DeleteCourse(int id)
   {
     var course = await db.Courses.FindAsync(id);
