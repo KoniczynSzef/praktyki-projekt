@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Controllers",
+    "\\Database",
+    "\\Migrations"
   ],
-  "SelectedNode": "\\appsettings.Development.json",
+  "SelectedNode": "\\Controllers\\CourseController.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -4,7 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
-function FeaturedCourseCard({ course, isTopRanked }) {
+interface Course {
+  id: string;
+  category: string;
+  title: string;
+  description: string;
+  price: number;
+  rank: number;
+}
+
+function FeaturedCourseCard({ course, isTopRanked }: { course: Course; isTopRanked: boolean }) {
   return (
     <Card className={`flex flex-col ${isTopRanked ? "border-2 border-indigo-500 rounded-lg overflow-hidden" : ""}`}>
       <CardContent className="flex-grow p-6">
@@ -28,7 +37,7 @@ function FeaturedCourseCard({ course, isTopRanked }) {
 }
 
 export function CoursePreview() {
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,7 +45,7 @@ export function CoursePreview() {
       try {
         const response = await fetch("http://localhost:5181");
         const data = await response.json();
-        const sortedCourses = data.sort((a, b) => a.rank - b.rank);
+        const sortedCourses: Course[] = (data as Course[]).sort((a, b) => a.rank - b.rank);
         setCourses(sortedCourses);
       } catch (error) {
         console.error("Error fetching courses:", error);
