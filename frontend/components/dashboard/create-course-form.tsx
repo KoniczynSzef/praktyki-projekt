@@ -80,7 +80,7 @@ export function CreateCourseForm() {
   }
 
   return (
-    <Card className="bg-white dark:bg-black border dark:border-zinc-800">
+    <Card>
       <CardContent className="p-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -290,7 +290,7 @@ export function CreateCourseForm() {
             />
 
             <div className="flex justify-end space-x-4">
-              <Button type="button" variant="secondary" onClick={() => router.push("/dashboard")}>
+              <Button type="button" variant="outline" onClick={() => router.push("/dashboard")}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
