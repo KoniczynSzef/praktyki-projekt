@@ -75,16 +75,24 @@ public class CourseController : ControllerBase
       var createdCourse = await courseService.CreateCourse(courseDto);
       return CreatedAtAction(nameof(GetCourseById), new { Id = createdCourse.Id }, courseDto);
     }
-    catch (Exception)
+    catch (Exception err)
     {
-      return BadRequest();
+      return BadRequest(new { error = err.Message });
     }
   }
 
   [HttpPost("{id}/signup")]
-  public async Task<IActionResult> SignUpForCourse(int id)
+  public async Task<IActionResult> SignUpForCourse(int id, [FromBody] int userId)
   {
-    throw new NotImplementedException();
+    try
+    {
+      var signedUpSuccessfully = await courseService.SignUpForCourse(id, userId);
+      return Ok("Signed up for course successfully");
+    }
+    catch (Exception err)
+    {
+      return BadRequest(new { error = err.Message });
+    }
   }
 
   [HttpPut("{id}")]

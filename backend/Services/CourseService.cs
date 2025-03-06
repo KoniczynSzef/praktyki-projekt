@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 public class CourseService : ICourseService
 {
   private readonly DatabaseContext db;
-  private readonly UserService userService;
-  public CourseService(DatabaseContext _db, UserService _userService)
+  public CourseService(DatabaseContext _db)
   {
     db = _db;
-    userService = _userService;
   }
 
   public async Task<IEnumerable<Course>> GetAllCourses()
