@@ -17,8 +17,8 @@ export interface Course {
 }
 
 interface CourseCardProps {
-  course: Course;
-  featured?: boolean;
+  course: Course
+  featured?: boolean
 }
 
 export function CourseCard({ courseId, featured = false }: CourseCardProps) {
@@ -44,6 +44,7 @@ export function CourseCard({ courseId, featured = false }: CourseCardProps) {
 
   return (
     <Card className={`overflow-hidden transition-all hover:shadow-lg ${featured ? "border-2 border-primary" : ""}`}>
+    <Card className={`overflow-hidden transition-all hover:shadow-lg ${featured ? "border-2 border-primary" : ""}`}>
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/3">
           <img
@@ -58,10 +59,9 @@ export function CourseCard({ courseId, featured = false }: CourseCardProps) {
               <div>
                 <Badge className="mb-2">{course.category}</Badge>
                 <h3 className="mb-2 text-xl font-bold">{course.title}</h3>
-                <p className="mb-2 text-sm text-gray-600">
-                  {course.description}
-                </p>
+                <p className="mb-2 text-sm text-gray-600">{course.description}</p>
               </div>
+              {featured && <Badge className="bg-primary text-primary-foreground">Featured</Badge>}
               {featured && <Badge className="bg-primary text-primary-foreground">Featured</Badge>}
             </div>
             <div className="mt-2 flex justify-between text-sm text-gray-500">
@@ -70,9 +70,7 @@ export function CourseCard({ courseId, featured = false }: CourseCardProps) {
             </div>
           </CardContent>
           <CardFooter className="flex items-center justify-between bg-gray-50 p-4 dark:bg-gray-800">
-            <span className="text-lg font-bold">
-              ${course.price.toFixed(2)}
-            </span>
+            <span className="text-lg font-bold">${course.price.toFixed(2)}</span>
             <Button asChild>
               <Link href={`/courses/${course.Id}`}>Learn More</Link>
             </Button>
@@ -81,4 +79,6 @@ export function CourseCard({ courseId, featured = false }: CourseCardProps) {
       </div>
     </Card>
   )
+  )
 }
+

@@ -1,5 +1,7 @@
 "use client"
+"use client"
 
+import type React from "react"
 import type React from "react"
 
 import { useState } from "react";
@@ -15,8 +17,13 @@ interface CourseSearchProps {
 
 export function CourseSearch({ onSearch }: CourseSearchProps) {
   const [searchQuery, setSearchQuery] = useState("")
+export function CourseSearch({ onSearch }: CourseSearchProps) {
+  const [searchQuery, setSearchQuery] = useState("")
 
   const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    onSearch(searchQuery)
+  }
     e.preventDefault()
     onSearch(searchQuery)
   }
@@ -35,5 +42,6 @@ export function CourseSearch({ onSearch }: CourseSearchProps) {
         <Search className="h-4 w-4" />
       </Button>
     </form>
+  )
   )
 }
