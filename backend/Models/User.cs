@@ -7,7 +7,6 @@ public class User
   public string PhoneNumber { get; set; } = string.Empty;
   public string HashedPassword { get; set; } = string.Empty;
 
-  public List<string> CourseIds { get; set; } = new List<string>();
-  public List<Course> Courses { get; set; } = new List<Course>();
+  public List<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
 }
 

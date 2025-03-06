@@ -7,7 +7,7 @@ public interface ICourseService
   Task<IEnumerable<Course>> GetFeaturedCourses();
 
   Task<Course> CreateCourse(CreateCourseDto courseDto);
-  Task<bool> SignUpForCourse(int id);
+  Task<bool> SignUpForCourse(int id, int userId);
 
   Task<Course> UpdateCourse(int id, UpdateCourseDto courseDto);
 

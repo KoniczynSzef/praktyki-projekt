@@ -17,6 +17,8 @@ public class Course
   public List<string> SyllabusElements { get; set; } = new List<string>();
   public string ImageURL { get; set; } = "";
 
+  public List<UserCourse> UserCourses { get; set; } = new List<UserCourse>();
+
   public Course() { }
 
   public Course(CreateCourseDto course)

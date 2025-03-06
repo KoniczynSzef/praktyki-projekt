@@ -82,7 +82,20 @@ public class CourseService : ICourseService
     return newCourse;
   }
 
-  public Task<bool> SignUpForCourse(int id) => throw new NotImplementedException();
+  public async Task<bool> SignUpForCourse(int id, int userId)
+  {
+    // var course = await this.GetCourseById(id);
+    //
+    // var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+    //
+    // // TODO change in the future
+    // if (user == null) return false;
+    //
+    // user.CourseIds.Add(id)
+    //
+    //
+    return false;
+  }
 
   public async Task<Course> UpdateCourse(int id, UpdateCourseDto courseDto)
   {
