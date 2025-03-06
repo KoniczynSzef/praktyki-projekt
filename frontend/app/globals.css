@@ -73,21 +73,15 @@ body {
 }
 
 .bg-grid-pattern {
-  background-image:
-    linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+  background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px),
     linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
   background-size: 40px 40px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, transparent 100%);
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 1) 0%,
-    transparent 100%
-  );
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
 }
 
 .dark .bg-grid-pattern {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 1px, transparent 1px);
 }
 
@@ -103,3 +97,36 @@ body {
 .fade-in {
   animation: fadeIn 1s ease-out forwards;
 }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s ease-out forwards;
+  animation-delay: calc(var(--index, 0) * 0.1s);
+}
+
+@keyframes fadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-left {
+  animation: fadeLeft 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+}
+

@@ -29,6 +29,7 @@ const courses = [
     startDate: "2024-03-20",
     isRemote: false,
   },
+  // Add more courses as needed
 ]
 
 export function CourseList() {
@@ -36,59 +37,48 @@ export function CourseList() {
 
   const handleEdit = (courseId: number) => {
     setSelectedCourse(courseId)
+    // Implement edit functionality
   }
 
   const handleDelete = (courseId: number) => {
+    // Implement delete functionality
     console.log("Delete course:", courseId)
   }
 
   return (
-    <Card className="bg-white dark:bg-black border dark:border-zinc-800">
+    <Card className="bg-white/95 backdrop-blur-sm">
       <Table>
         <TableHeader>
-          <TableRow className="dark:border-zinc-800">
-            <TableHead className="dark:text-zinc-400">Subject</TableHead>
-            <TableHead className="dark:text-zinc-400">Author</TableHead>
-            <TableHead className="dark:text-zinc-400">Category</TableHead>
-            <TableHead className="dark:text-zinc-400">Participants</TableHead>
-            <TableHead className="dark:text-zinc-400">Start Date</TableHead>
-            <TableHead className="dark:text-zinc-400">Format</TableHead>
-            <TableHead className="text-right dark:text-zinc-400">Actions</TableHead>
+          <TableRow>
+            <TableHead>Subject</TableHead>
+            <TableHead>Author</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Participants</TableHead>
+            <TableHead>Start Date</TableHead>
+            <TableHead>Format</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {courses.map((course) => (
-            <TableRow key={course.id} className="dark:border-zinc-800">
-              <TableCell className="font-medium dark:text-white">{course.subject}</TableCell>
-              <TableCell className="dark:text-zinc-300">{course.author}</TableCell>
-              <TableCell className="dark:text-zinc-300">{course.category}</TableCell>
-              <TableCell className="dark:text-zinc-300">
+            <TableRow key={course.id}>
+              <TableCell className="font-medium">{course.subject}</TableCell>
+              <TableCell>{course.author}</TableCell>
+              <TableCell>{course.category}</TableCell>
+              <TableCell>
                 {course.currentParticipants}/{course.maxParticipants}
               </TableCell>
-              <TableCell className="dark:text-zinc-300">{course.startDate}</TableCell>
+              <TableCell>{course.startDate}</TableCell>
               <TableCell>
-                <Badge
-                  variant={course.isRemote ? "outline" : "secondary"}
-                  className="dark:border-zinc-700 dark:text-zinc-300"
-                >
+                <Badge variant={course.isRemote ? "outline" : "secondary"}>
                   {course.isRemote ? "Remote" : "In-person"}
                 </Badge>
               </TableCell>
               <TableCell className="text-right">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleEdit(course.id)}
-                  className="dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800"
-                >
+                <Button variant="ghost" size="icon" onClick={() => handleEdit(course.id)}>
                   <Pencil className="h-4 w-4" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleDelete(course.id)}
-                  className="dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800"
-                >
+                <Button variant="ghost" size="icon" onClick={() => handleDelete(course.id)}>
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </TableCell>
