@@ -41,7 +41,7 @@ const featuredCourses = [
   },
 ]
 
-function FeaturedCourseCard({ course, isTopRanked }: { course: (typeof featuredCourses)[0]; isTopRanked: boolean }) {
+function FeaturedCourseCard({ course, isTopRanked }: { course: Course; isTopRanked: boolean }) {
   return (
     <Card
       className={`flex flex-col h-full overflow-hidden ${isTopRanked ? "border-2 border-indigo-500 rounded-lg" : ""}`}
@@ -125,4 +125,3 @@ export function CoursePreview() {
     </section>
   )
 }
-

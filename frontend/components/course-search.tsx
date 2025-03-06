@@ -1,11 +1,14 @@
 "use client"
+"use client"
 
 import type React from "react"
 
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Search } from "lucide-react"
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 interface CourseSearchProps {
   onSearch: (query: string) => void
@@ -21,7 +24,9 @@ export function CourseSearch({ onSearch }: CourseSearchProps) {
 
   return (
     <form onSubmit={handleSearch} className="flex w-full max-w-sm items-center space-x-2">
+      <Label htmlFor="course-search">Search Courses</Label>
       <Input
+        id="course-search"
         type="text"
         placeholder="Search courses..."
         value={searchQuery}
@@ -32,5 +37,5 @@ export function CourseSearch({ onSearch }: CourseSearchProps) {
       </Button>
     </form>
   )
+  
 }
-

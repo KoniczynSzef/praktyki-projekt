@@ -20,25 +20,25 @@ const stats = [
     icon: Users,
     value: 50000,
     label: "Active Students",
-    color: "text-blue-500",
+    color: "#03449E",
   },
   {
     icon: BookOpen,
     value: 300,
     label: "Courses",
-    color: "text-green-500",
+    color: "#007F2E",
   },
   {
     icon: Award,
     value: 15000,
     label: "Certificates Issued",
-    color: "text-purple-500",
+    color: "#6500B0",
   },
   {
     icon: Globe,
     value: 190,
     label: "Countries",
-    color: "text-orange-500",
+    color: "#B54100",
   },
 ]
 

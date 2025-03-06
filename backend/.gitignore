@@ -1,0 +1,69 @@
+# Ignore build outputs
+bin/
+obj/
+out/
+
+# Ignore .NET runtime and dependency artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+*.log
+*.cache
+*.lock
+*.nupkg
+*.snupkg
+
+# Ignore local user settings
+.vscode/
+.idea/
+*.user
+*.suo
+*.vs/
+*.sln.ide
+
+# Ignore NuGet packages
+packages/
+!packages/repositories.config
+.nuget/
+
+# Ignore Rider/JetBrains IDE files
+*.sln.DotSettings
+*.sln.DotSettings.user
+*.ReSharper
+*.DotSettings.user
+
+# Ignore Entity Framework migrations & seed data
+Migrations/
+
+# Ignore database files
+*.mdf
+*.ldf
+*.sqlite
+*.db
+
+# Ignore environment variables & secrets
+.env
+appsettings.Development.json
+secrets.json
+
+# Ignore Docker and Kubernetes artifacts
+docker-compose.override.yml
+docker-compose.debug.yml
+.dockerignore
+k8s/
+
+# Ignore testing & coverage artifacts
+TestResults/
+coverage/
+*.coverage
+*.trx
+
+# Ignore logs and temp files
+logs/
+*.log
+*.tlog
+*.tmp
+.DS_Store
+Thumbs.db

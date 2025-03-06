@@ -9,7 +9,22 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
+import { useEffect } from "react"
+import axios from "axios"
+const [courses, setCourses] = useState([])
 
+useEffect(() => {
+  async function fetchCourses() {
+    try {
+      const response = await axios.get("http://localhost:5181/api/courses")
+      setCourses(response.data)
+    } catch (error) {
+      console.error("Error fetching courses:", error)
+    }
+  }
+
+  fetchCourses()
+}, [])
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",

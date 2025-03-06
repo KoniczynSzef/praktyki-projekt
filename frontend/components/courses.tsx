@@ -1,4 +1,14 @@
-import { CourseCard } from "@/components/course-card"
+import { useEffect, useState } from "react";
+import { CourseCard } from "@/components/course-card";
+
+const [courses, setCourses] = useState([]);
+
+useEffect(() => {
+  fetch("http://localhost:5181/api/courses")
+    .then((response) => response.json())
+    .then((data) => setCourses(data))
+    .catch((error) => console.error("Error fetching courses:", error));
+}, []);
 
 // This would typically come from a database or API
 const courses = [
