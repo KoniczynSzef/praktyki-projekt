@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Label } from "@/components/ui/label";
 
 export function Footer() {
   return (
@@ -74,6 +75,7 @@ export function Footer() {
               Subscribe to our newsletter for the latest updates.
             </p>
             <form className="flex">
+              <Label htmlFor="course-search">Search Courses</Label>
               <input
                 type="email"
                 placeholder="Your email"
