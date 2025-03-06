@@ -13,6 +13,7 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

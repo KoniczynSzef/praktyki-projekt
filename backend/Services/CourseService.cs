@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 public class CourseService : ICourseService
 {
   private readonly DatabaseContext db;
-  public CourseService(DatabaseContext _db)
+  private readonly UserService userService;
+  public CourseService(DatabaseContext _db, UserService _userService)
   {
     db = _db;
+    userService = _userService;
   }
 
   public async Task<IEnumerable<Course>> GetAllCourses()
@@ -84,17 +86,23 @@ public class CourseService : ICourseService
 
   public async Task<bool> SignUpForCourse(int id, int userId)
   {
-    // var course = await this.GetCourseById(id);
-    //
-    // var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-    //
-    // // TODO change in the future
-    // if (user == null) return false;
-    //
-    // user.CourseIds.Add(id)
-    //
-    //
-    return false;
+    var course = await this.GetCourseById(id);
+    var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+    // Check if user is already signed up
+    bool isUserSignedUp = await db.UserCourses
+        .AnyAsync(uc => uc.UserId == userId && uc.CourseId == id);
+
+    if (isUserSignedUp)
+    {
+      throw new Exception("User is already signed up for the course");
+    }
+
+    UserCourse userCourse = new UserCourse() { CourseId = id, UserId = userId };
+    await db.UserCourses.AddAsync(userCourse);
+    await db.SaveChangesAsync();
+
+    return true;
   }
 
   public async Task<Course> UpdateCourse(int id, UpdateCourseDto courseDto)
