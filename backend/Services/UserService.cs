@@ -8,7 +8,7 @@ public class UserService : IUserService
     db = _db;
   }
 
-  public async Task<User> GetUserById(int id)
+  public async Task<User> GetUserById(string id)
   {
     var user = await db.Users.FirstOrDefaultAsync(u => u.Id == id);
 
