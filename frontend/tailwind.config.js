@@ -32,7 +32,7 @@ module.exports = {
           800: "#1a2744",
         },
         primary: {
-          DEFAULT: "hsl(231, 100.00%, 50.00%)",
+          DEFAULT: "hsl(222, 100%, 50%)",
           foreground: "hsl(0, 0%, 100%)",
         },
         secondary: {
