@@ -9,12 +9,12 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ heading, text }: DashboardHeaderProps) {
   return (
-    <div className="flex items-center justify-between px-2 text-white mb-8">
+    <div className="flex items-center justify-between px-2 mb-8">
       <div className="grid gap-1">
-        <h1 className="font-heading text-3xl md:text-4xl">{heading}</h1>
-        {text && <p className="text-white/70">{text}</p>}
+        <h1 className="font-heading text-3xl md:text-4xl text-zinc-900 dark:text-white">{heading}</h1>
+        {text && <p className="text-zinc-500 dark:text-zinc-400">{text}</p>}
       </div>
-      <Button variant="outline" className="border-white/20 hover:bg-white/10" asChild>
+      <Button asChild>
         <Link href="/dashboard/courses/create">
           <Plus className="mr-2 h-4 w-4" />
           Create Course
