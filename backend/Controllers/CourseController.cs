@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -12,6 +13,7 @@ public class CourseController : ControllerBase
   }
 
   [HttpGet]
+  [Authorize]
   public async Task<IActionResult> GetAllCourses()
   {
     try

@@ -42,6 +42,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 var app = builder.Build();
 

@@ -26,6 +26,8 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </None>
+
+    <PackageReference Include="System.Text.Json" Version="9.0.2" />
   </ItemGroup>
 
 </Project>
