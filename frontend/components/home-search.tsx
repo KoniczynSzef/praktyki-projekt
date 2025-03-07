@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Search, Code, Briefcase, TrendingUp, Database } from "lucide-react"
+import { Label } from "@/components/ui/label";
 
 const popularCategories = [
   {
@@ -61,21 +62,26 @@ export function HomeSearch() {
             </p>
           </div>
 
-          <form onSubmit={handleSearch} className="flex w-full max-w-2xl mx-auto mb-10">
+            <form onSubmit={handleSearch} className="flex w-full max-w-2xl mx-auto mb-10"> 
+            <Label htmlFor="search" className="mr-4 my-auto">Search for courses</Label>
             <div className="relative flex-grow">
-              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-              <Input
+            <div className="relative flex-grow">
+                <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                name="search"
+                id="search"
                 type="text"
                 placeholder="What do you want to learn today?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 pr-4 py-6 text-base rounded-l-md rounded-r-none border-r-0 h-auto"
-              />
+                />
+              </div>
             </div>
             <Button type="submit" className="rounded-l-none px-8 text-base h-auto">
               Search
             </Button>
-          </form>
+            </form>
 
           <div>
             <h3 className="text-sm font-medium text-muted-foreground mb-4">Popular Categories</h3>

@@ -75,8 +75,8 @@ export function Footer() {
               Subscribe to our newsletter for the latest updates.
             </p>
             <form className="flex">
-              <Label htmlFor="course-search">Search Courses</Label>
-              <input
+              <Label htmlFor="newsletter-email" className="mr-4 my-auto">sign up</Label>
+              <input name="newsletter-email" id="newsletter-email"
                 type="email"
                 placeholder="Your email"
                 className="w-full rounded-l-md border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-blue-500"
