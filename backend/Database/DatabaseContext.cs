@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public class DatabaseContext : DbContext
+public class DatabaseContext : IdentityDbContext<User>
 {
   public DbSet<Course> Courses { get; set; }
-  public DbSet<User> Users { get; set; }
   public DbSet<UserCourse> UserCourses { get; set; }
 
   public DatabaseContext() { }
@@ -11,6 +11,10 @@ public class DatabaseContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+
+    base.OnModelCreating(modelBuilder);
+    modelBuilder.HasDefaultSchema("identity");
+
     modelBuilder.Entity<UserCourse>()
         .HasKey(uc => new { uc.UserId, uc.CourseId });
 

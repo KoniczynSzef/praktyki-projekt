@@ -1,12 +1,17 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-// Swagger docs
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
+
+builder.Services.AddIdentityCore<User>().AddEntityFrameworkStores<DatabaseContext>().AddApiEndpoints();
 
 // Database Context
 builder.Services.AddDbContext<DatabaseContext>(options =>
@@ -34,7 +39,7 @@ app.Use((ctx, next) =>
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.MapIdentityApi<User>();
 
 app.MapControllers();
 
