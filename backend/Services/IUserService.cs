@@ -1,4 +1,4 @@
 public interface IUserService
 {
-  Task<User> GetUserById(int id);
+  Task<User> GetUserById(string id);
 }

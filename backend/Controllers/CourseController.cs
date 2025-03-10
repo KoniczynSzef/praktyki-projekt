@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -12,6 +13,7 @@ public class CourseController : ControllerBase
   }
 
   [HttpGet]
+  [Authorize]
   public async Task<IActionResult> GetAllCourses()
   {
     try
@@ -26,7 +28,7 @@ public class CourseController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  public async Task<IActionResult> GetCourseById(int id)
+  public async Task<IActionResult> GetCourseById(string id)
   {
     try
     {
@@ -40,7 +42,7 @@ public class CourseController : ControllerBase
   }
 
   [HttpGet("{id}/suggested")]
-  public async Task<IActionResult> GetSuggestedCoursesByCourseId(int id)
+  public async Task<IActionResult> GetSuggestedCoursesByCourseId(string id)
   {
     try
     {
@@ -82,7 +84,7 @@ public class CourseController : ControllerBase
   }
 
   [HttpPost("{id}/signup")]
-  public async Task<IActionResult> SignUpForCourse(int id, [FromBody] int userId)
+  public async Task<IActionResult> SignUpForCourse(string id, [FromBody] string userId)
   {
     try
     {
@@ -96,7 +98,7 @@ public class CourseController : ControllerBase
   }
 
   [HttpPut("{id}")]
-  public async Task<IActionResult> UpdateCourse(int id, UpdateCourseDto courseDto)
+  public async Task<IActionResult> UpdateCourse(string id, UpdateCourseDto courseDto)
   {
     try
     {
@@ -110,7 +112,7 @@ public class CourseController : ControllerBase
   }
 
   [HttpDelete("{id}")]
-  public async Task<IActionResult> DeleteCourse(int id)
+  public async Task<IActionResult> DeleteCourse(string id)
   {
     try
     {
@@ -123,4 +125,3 @@ public class CourseController : ControllerBase
     }
   }
 }
-

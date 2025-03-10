@@ -13,7 +13,7 @@ public class CourseService : ICourseService
     return await db.Courses.ToListAsync();
   }
 
-  public async Task<Course> GetCourseById(int id)
+  public async Task<Course> GetCourseById(string id)
   {
     var course = await db.Courses.FirstOrDefaultAsync(c => c.Id == id);
 
@@ -25,7 +25,7 @@ public class CourseService : ICourseService
     return course;
   }
 
-  public async Task<IEnumerable<Course>> GetSuggestedCoursesByCourseId(int id)
+  public async Task<IEnumerable<Course>> GetSuggestedCoursesByCourseId(string id)
   {
     var course = await this.GetCourseById(id);
     var allCourses = await this.GetAllCourses();
@@ -82,10 +82,9 @@ public class CourseService : ICourseService
     return newCourse;
   }
 
-  public async Task<bool> SignUpForCourse(int id, int userId)
+  public async Task<bool> SignUpForCourse(string id, string userId)
   {
     var course = await this.GetCourseById(id);
-    var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
     // Check if user is already signed up
     bool isUserSignedUp = await db.UserCourses
@@ -103,7 +102,7 @@ public class CourseService : ICourseService
     return true;
   }
 
-  public async Task<Course> UpdateCourse(int id, UpdateCourseDto courseDto)
+  public async Task<Course> UpdateCourse(string id, UpdateCourseDto courseDto)
   {
     var existingCourse = await db.Courses.FirstOrDefaultAsync(c => c.Id == id);
 
@@ -130,7 +129,7 @@ public class CourseService : ICourseService
     return existingCourse;
   }
 
-  public async Task<bool> DeleteCourse(int id)
+  public async Task<bool> DeleteCourse(string id)
   {
     var course = await db.Courses.FindAsync(id);
 
@@ -145,5 +144,3 @@ public class CourseService : ICourseService
     return true;
   }
 }
-
-
