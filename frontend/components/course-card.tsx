@@ -17,8 +17,8 @@ export interface Course {
 }
 
 interface CourseCardProps {
-  course: Course
-  featured?: boolean
+  courseId: number;
+  featured?: boolean;
 }
 
 export function CourseCard({ courseId, featured = false }: CourseCardProps) {
@@ -28,7 +28,7 @@ export function CourseCard({ courseId, featured = false }: CourseCardProps) {
     async function fetchCourse() {
       try {
         const response = await fetch(`http://localhost:5181/courses/${courseId}`);
-        const data = await response.json();
+        const data: Course = await response.json(); 
         setCourse(data);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -48,7 +48,7 @@ export function CourseCard({ courseId, featured = false }: CourseCardProps) {
         <div className="md:w-1/3">
           <img
             src={course.image || "/placeholder.svg"}
-            alt={course.Name}
+            alt={course.title}
             className="h-48 w-full object-cover md:h-full"
           />
         </div>
@@ -64,14 +64,14 @@ export function CourseCard({ courseId, featured = false }: CourseCardProps) {
               {featured && <Badge className="bg-primary text-primary-foreground">Featured</Badge>}
             </div>
             <div className="mt-2 flex justify-between text-sm text-gray-500">
-              <span>Starts: {new Date(course.StartDate).toDateString()}</span>
-              <span>{course.IsRemote ? "Remote" : "In-person"}</span>
+              <span>Starts: {new Date(course.startDate).toDateString()}</span>
+              <span>{course.isRemote ? "Remote" : "In-person"}</span>
             </div>
           </CardContent>
           <CardFooter className="flex items-center justify-between bg-gray-50 p-4 dark:bg-gray-800">
             <span className="text-lg font-bold">${course.price.toFixed(2)}</span>
             <Button asChild>
-              <Link href={`/courses/${course.Id}`}>Learn More</Link>
+              <Link href={`/courses/${course.id}`}>Learn More</Link>
             </Button>
           </CardFooter>
         </div>
