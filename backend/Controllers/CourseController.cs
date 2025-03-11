@@ -21,9 +21,9 @@ public class CourseController : ControllerBase
       var courses = await courseService.GetAllCourses();
       return Ok(courses);
     }
-    catch (Exception)
+    catch (Exception err)
     {
-      return BadRequest();
+      throw err;
     }
   }
 
@@ -37,7 +37,7 @@ public class CourseController : ControllerBase
     }
     catch (Exception err)
     {
-      return NotFound(err.Message);
+      throw err;
     }
   }
 
@@ -51,7 +51,7 @@ public class CourseController : ControllerBase
     }
     catch (Exception err)
     {
-      return NotFound(err.Message);
+      throw err;
     }
   }
 
@@ -65,7 +65,7 @@ public class CourseController : ControllerBase
     }
     catch (Exception err)
     {
-      return NotFound(err.Message);
+      throw err;
     }
   }
 
@@ -79,7 +79,7 @@ public class CourseController : ControllerBase
     }
     catch (Exception err)
     {
-      return BadRequest(new { error = err.Message });
+      throw err;
     }
   }
 
@@ -93,7 +93,7 @@ public class CourseController : ControllerBase
     }
     catch (Exception err)
     {
-      return BadRequest(new { error = err.Message });
+      throw err;
     }
   }
 
@@ -105,9 +105,9 @@ public class CourseController : ControllerBase
       var updatedCourse = await courseService.UpdateCourse(id, courseDto);
       return NoContent();
     }
-    catch (Exception)
+    catch (Exception err)
     {
-      return NotFound("Did not find any course to update.");
+      throw err;
     }
   }
 
@@ -119,9 +119,9 @@ public class CourseController : ControllerBase
       var isSuccess = await courseService.DeleteCourse(id);
       return NoContent();
     }
-    catch (Exception)
+    catch (Exception err)
     {
-      return NotFound("Did not find any course to delete.");
+      throw err;
     }
   }
 }
