@@ -1,14 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Github, Mail } from "lucide-react"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Github, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z
   .object({
@@ -32,10 +41,12 @@ const formSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
-  })
+  });
 
 export function SignUpForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,22 +58,47 @@ export function SignUpForm() {
       password: "",
       confirmPassword: "",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true)
-    // Here you would typically send the form data to your backend
-    console.log(values)
-    await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulating API call
-    setIsSubmitting(false)
-    form.reset()
+    setIsSubmitting(true);
+
+    const { firstName, lastName, email, phoneNumber, password } = values;
+    const data = { firstName, lastName, email, phoneNumber, password };
+
+    const response = await fetch("http://localhost:5181/identity/register", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      toast({
+        title: "Sign up process failed.",
+        description: "Something went wrong during sign up process.",
+      });
+
+      return;
+    }
+
+    setIsSubmitting(false);
+    form.reset();
+
+    toast({
+      title: "Signed up successfully.",
+      description: "You have been registered successfully.",
+    });
+
+    router.push("/signin");
   }
 
   return (
     <div className="w-full max-w-md space-y-8">
       <div className="text-center">
         <h2 className="text-2xl font-bold">Create an account</h2>
-        <p className="text-sm text-muted-foreground">Enter your information to get started</p>
+        <p className="text-sm text-muted-foreground">
+          Enter your information to get started
+        </p>
       </div>
 
       <Form {...form}>
@@ -117,7 +153,11 @@ export function SignUpForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="john.doe@example.com" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="john.doe@example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -163,7 +203,9 @@ export function SignUpForm() {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with
+          </span>
         </div>
       </div>
 
@@ -181,12 +223,14 @@ export function SignUpForm() {
       <div className="text-center">
         <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/signin" className="font-medium text-primary hover:underline">
+          <Link
+            href="/signin"
+            className="font-medium text-primary hover:underline"
+          >
             Sign in
           </Link>
         </p>
       </div>
     </div>
-  )
+  );
 }
-
