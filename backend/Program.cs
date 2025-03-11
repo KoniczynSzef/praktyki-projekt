@@ -5,6 +5,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+            {
+              options.AddPolicy("AllowAllOrigin",
+                  builder =>
+                  {
+                    builder.AllowAnyOrigin()
+                             .AllowAnyHeader()
+                             .AllowAnyMethod();
+                  });
+            });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(opt =>
 {
@@ -51,6 +62,8 @@ if (app.Environment.IsDevelopment())
   app.UseSwagger();
   app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAllOrigin");
 
 app.UseHttpsRedirection();
 
