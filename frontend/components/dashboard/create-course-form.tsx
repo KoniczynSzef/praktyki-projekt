@@ -51,6 +51,8 @@ export function CreateCourseForm() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
+  const className = "dark:text-red-600"
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -80,7 +82,7 @@ export function CreateCourseForm() {
   }
 
   return (
-    <Card>
+    <Card className="bg-white/80 dark:bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60 border-zinc-200 dark:border-zinc-800">
       <CardContent className="p-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -94,7 +96,7 @@ export function CreateCourseForm() {
                     <FormControl>
                       <Input placeholder="John Doe" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={className} />
                   </FormItem>
                 )}
               />
@@ -108,7 +110,7 @@ export function CreateCourseForm() {
                     <FormControl>
                       <Input placeholder="Web Development" {...field} />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={className} />
                   </FormItem>
                 )}
               />
@@ -135,7 +137,7 @@ export function CreateCourseForm() {
                         <SelectItem value="data">Data Science</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
+                    <FormMessage className={className} />
                   </FormItem>
                 )}
               />
@@ -155,7 +157,7 @@ export function CreateCourseForm() {
                         onChange={(e) => field.onChange(Number.parseFloat(e.target.value))}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={className} />
                   </FormItem>
                 )}
               />
@@ -176,7 +178,7 @@ export function CreateCourseForm() {
                         onChange={(e) => field.onChange(Number.parseInt(e.target.value))}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={className} />
                   </FormItem>
                 )}
               />
@@ -209,7 +211,7 @@ export function CreateCourseForm() {
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormMessage />
+                    <FormMessage className={className} />
                   </FormItem>
                 )}
               />
@@ -228,7 +230,7 @@ export function CreateCourseForm() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className={className} />
                 </FormItem>
               )}
             />
@@ -243,7 +245,7 @@ export function CreateCourseForm() {
                     <Textarea placeholder="Enter the course syllabus..." className="min-h-[150px]" {...field} />
                   </FormControl>
                   <FormDescription>Enter each topic on a new line</FormDescription>
-                  <FormMessage />
+                  <FormMessage className={className} />
                 </FormItem>
               )}
             />
@@ -284,13 +286,13 @@ export function CreateCourseForm() {
                     />
                   </FormControl>
                   <FormDescription>Upload a cover image for your course</FormDescription>
-                  <FormMessage />
+                  <FormMessage className={className} />
                 </FormItem>
               )}
             />
 
             <div className="flex justify-end space-x-4">
-              <Button type="button" variant="outline" onClick={() => router.push("/dashboard")}>
+              <Button type="button" variant="secondary" onClick={() => router.push("/dashboard")}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>

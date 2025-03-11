@@ -20,25 +20,25 @@ const stats = [
     icon: Users,
     value: 50000,
     label: "Active Students",
-    color: "#03449E",
+    color: "#2474f5",
   },
   {
     icon: BookOpen,
     value: 300,
     label: "Courses",
-    color: "#007F2E",
+    color: "#1a9948",
   },
   {
     icon: Award,
     value: 15000,
     label: "Certificates Issued",
-    color: "#6500B0",
+    color: "#9c3cf6",
   },
   {
     icon: Globe,
     value: 190,
     label: "Countries",
-    color: "#B54100",
+    color: "#e06106",
   },
 ]
 
@@ -140,11 +140,11 @@ export function Statistics() {
             <Card key={index} className="border-none shadow-md dark:bg-gray-800">
               <CardContent className="p-6 text-center">
                 <div className="flex justify-center mb-4">
-                  <div className={`${stat.color} bg-opacity-10 p-3 rounded-full`}>
-                    <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                  <div style={{ backgroundColor: `${stat.color}1A` }} className="p-3 rounded-full">
+                    <stat.icon style={{ color: stat.color }} className="h-8 w-8" />
                   </div>
                 </div>
-                <div className={`text-3xl font-bold mb-1 ${stat.color}`}>
+                <div style={{ color: stat.color }} className="text-3xl font-bold mb-1">
                   <CountUp end={stat.value} />
                 </div>
                 <p className="text-muted-foreground">{stat.label}</p>

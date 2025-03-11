@@ -24,8 +24,9 @@ export function CourseSearch({ onSearch }: CourseSearchProps) {
 
   return (
     <form onSubmit={handleSearch} className="flex w-full max-w-sm items-center space-x-2">
-      <Label htmlFor="course-search">Search Courses</Label>
-      <Input
+      <Label htmlFor="course-search">Search courses</Label>
+      <Input 
+        name="course-search"
         id="course-search"
         type="text"
         placeholder="Search courses..."
