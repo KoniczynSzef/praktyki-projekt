@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import React from "react";
+import { signOut } from "@/auth/sign-out";
+import { useToast } from "@/hooks/use-toast";
 
 async function getUserEmail() {
   const token = localStorage.getItem("token");
@@ -30,6 +32,8 @@ async function getUserEmail() {
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userEmail, setUserEmail] = useState("");
+
+  const { toast } = useToast();
 
   React.useEffect(() => {
     async function getUserEmail() {
@@ -60,6 +64,17 @@ export function Header() {
     getUserEmail();
   }, []);
 
+  function handleSignOut() {
+    signOut();
+
+    toast({
+      title: "Sign out",
+      description: "You have been signed out successfully.",
+    });
+
+    setUserEmail("");
+  }
+
   return (
     <header className="bg-background shadow-sm">
       <nav className="container mx-auto flex items-center justify-between px-4 py-6">
@@ -77,7 +92,11 @@ export function Header() {
             <Link href="/contact">Contact</Link>
           </Button>
           <ThemeToggle />
-          {userEmail ? null : (
+          {userEmail ? (
+            <Button variant="destructive" onClick={handleSignOut}>
+              Sign out
+            </Button>
+          ) : (
             <>
               <Button variant="ghost" asChild>
                 <Link href="/signin">Sign In</Link>
