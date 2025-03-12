@@ -1,34 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { toast } from "@/components/ui/use-toast"
-import { useEffect} from "react"
-import axios from "axios"
-interface Course {
-  id: number
-  name: string
-}
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { toast } from "@/components/ui/use-toast";
 
-const [courses, setCourses] = useState<Course[]>([])
-
-useEffect(() => {
-  async function fetchCourses() {
-    try {
-      const response = await axios.get("http://localhost:5181/courses")
-      setCourses(response.data)
-    } catch (error) {
-      console.error("Error fetching courses:", error)
-    }
-  }
-
-  fetchCourses()
-}, [])
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -39,15 +27,18 @@ const formSchema = z.object({
   phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
     message: "Please enter a valid phone number.",
   }),
-})
+});
 
 interface CourseSignUpFormProps {
-  courseId: number
-  onSuccess?: () => void
+  courseId: number;
+  onSuccess?: () => void;
 }
 
-export function CourseSignUpForm({ courseId, onSuccess }: CourseSignUpFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+export function CourseSignUpForm({
+  courseId,
+  onSuccess,
+}: CourseSignUpFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,21 +47,21 @@ export function CourseSignUpForm({ courseId, onSuccess }: CourseSignUpFormProps)
       email: "",
       phone: "",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     // Here you would typically send the form data to your backend
-    console.log(values)
-    await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulating API call
-    setIsSubmitting(false)
+    console.log(values);
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating API call
+    setIsSubmitting(false);
     toast({
       title: "Successfully signed up for the course!",
       description: `Course ID: ${courseId}`,
-    })
-    form.reset()
+    });
+    form.reset();
     if (onSuccess) {
-      onSuccess()
+      onSuccess();
     }
   }
 
@@ -97,7 +88,11 @@ export function CourseSignUpForm({ courseId, onSuccess }: CourseSignUpFormProps)
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="john.doe@example.com" {...field} />
+                <Input
+                  type="email"
+                  placeholder="john.doe@example.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -112,7 +107,9 @@ export function CourseSignUpForm({ courseId, onSuccess }: CourseSignUpFormProps)
               <FormControl>
                 <Input placeholder="+1234567890" {...field} />
               </FormControl>
-              <FormDescription>Please include your country code.</FormDescription>
+              <FormDescription>
+                Please include your country code.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -122,6 +119,5 @@ export function CourseSignUpForm({ courseId, onSuccess }: CourseSignUpFormProps)
         </Button>
       </form>
     </Form>
-  )
+  );
 }
-
