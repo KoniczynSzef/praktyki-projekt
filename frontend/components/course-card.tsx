@@ -24,8 +24,8 @@ export function CourseCard({ course, featured = false }: CourseCardProps) {
       <div className="flex flex-col md:flex-row">
         <div className="md:w-1/3">
           <img
-            src={course.ImageURL || "/placeholder.svg"}
-            alt={course.Name}
+            src={course.imageURL || "/placeholder.svg"}
+            alt={course.name}
             className="h-48 w-full object-cover md:h-full"
           />
         </div>
@@ -33,10 +33,10 @@ export function CourseCard({ course, featured = false }: CourseCardProps) {
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
               <div>
-                <Badge className="mb-2">{course.Badge}</Badge>
-                <h3 className="mb-2 text-xl font-bold">{course.Name}</h3>
+                <Badge className="mb-2">{course.badge}</Badge>
+                <h3 className="mb-2 text-xl font-bold">{course.name}</h3>
                 <p className="mb-2 text-sm text-gray-600">
-                  {course.Description}
+                  {course.description}
                 </p>
               </div>
               {featured && (
@@ -51,16 +51,16 @@ export function CourseCard({ course, featured = false }: CourseCardProps) {
               )}
             </div>
             <div className="mt-2 flex justify-between text-sm text-gray-500">
-              <span>Starts: {new Date(course.StartDate).toDateString()}</span>
-              <span>{course.IsRemote ? "Remote" : "In-person"}</span>
+              <span>Starts: {new Date(course.startDate).toDateString()}</span>
+              <span>{course.isRemote ? "Remote" : "In-person"}</span>
             </div>
           </CardContent>
           <CardFooter className="flex items-center justify-between bg-gray-50 p-4 dark:bg-gray-800">
             <span className="text-lg font-bold">
-              ${course.Price.toFixed(2)}
+              ${course.price.toFixed(2)}
             </span>
             <Button asChild>
-              <Link href={`/courses/${course.Id}`}>Learn More</Link>
+              <Link href={`/courses/${course.id}`}>Learn More</Link>
             </Button>
           </CardFooter>
         </div>

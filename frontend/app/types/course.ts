@@ -1,30 +1,29 @@
-
 export interface Course {
-  Id: number;
-  Name: string;
-  Description: string;
-  Badge: string;
-  Price: number;
-  StartDate: Date;
-  DurationInDays: number;
-  Instructor: string;
-  Level: Level;
-  MaxMembers: number;
-  SignedMembers: number;
-  SyllabusElements: string[];
-  ImageURL: string;
-  IsRemote: boolean;
+  id: number;
+  name: string;
+  description: string;
+  badge: string;
+  price: number;
+  startDate: Date;
+  durationInDays: number;
+  instructor: string;
+  level: Level;
+  maxMembers: number;
+  signedMembers: number;
+  syllabusElements: string[];
+  imageURL: string;
+  isRemote: boolean;
 }
 
 export enum Level {
   Beginner,
   Intermediate,
   Advanced,
-  Expert
+  Expert,
 }
 
 export enum Format {
   Remote,
   InPerson,
-  Both
+  Both,
 }
