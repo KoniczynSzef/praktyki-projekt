@@ -9,6 +9,7 @@ import React from "react";
 import { signOut } from "@/auth/sign-out";
 import { useToast } from "@/hooks/use-toast";
 import { authenticateUser } from "@/auth/authenticate-user";
+import { refreshToken } from "@/auth/refresh-token";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,7 +28,24 @@ export function Header() {
       setUserEmail(userData.email);
     }
 
-    handleAuthenticate();
+    try {
+      handleAuthenticate();
+    } catch (err) {
+      async function handleAuth() {
+        await refreshToken();
+
+        const data = await authenticateUser();
+        if (!data) {
+          setUserEmail("");
+          return;
+        }
+
+        setUserEmail(data.email);
+      }
+      handleAuth();
+
+      console.log(err);
+    }
   }, []);
 
   function handleSignOut() {

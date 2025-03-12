@@ -8,33 +8,13 @@ export async function authenticateUser() {
   }
 
   const response = await fetch("http://localhost:5181/identity/manage/info", {
-    headers: { Authorization: `Bearer ${token}` },
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      credentials: "include",
+    },
   });
-
-  if (!response.ok) {
-    const data = await refreshToken();
-
-    if (!data) {
-      return;
-    }
-
-    const refreshResponse = await fetch(
-      "http://localhost:5181/identity/manage/info",
-      {
-        headers: { Authorization: `Bearer ${data.accessToken}` },
-      },
-    );
-
-    if (!refreshResponse.ok) {
-      return;
-    }
-
-    const refreshData = (await refreshResponse.json()) as {
-      email: string;
-    };
-
-    return refreshData;
-  }
 
   const data = (await response.json()) as {
     email: string;

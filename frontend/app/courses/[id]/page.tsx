@@ -9,6 +9,7 @@ import { CourseSignUpModal } from "@/components/course-sign-up-modal";
 import { Course } from "@/app/types/course";
 import { useEffect, useState } from "react";
 import { getCourseById } from "@/api/courses/get-course-by-id";
+import { getSuggestedCoursesByCourseId } from "@/api/courses/get-suggested-courses-by-course-id";
 
 function SuggestedCourseCard({ course }: { course: Course }) {
   return (
@@ -45,8 +46,8 @@ export default function CoursePage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     async function handleGetCourseById() {
-      const data = await getCourseById(params.id);
-      setCourse(data);
+      setCourse(await getCourseById(params.id));
+      setSuggestedCourses(await getSuggestedCoursesByCourseId(params.id));
     }
 
     handleGetCourseById();
