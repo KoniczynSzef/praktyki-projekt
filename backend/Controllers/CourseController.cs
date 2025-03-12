@@ -13,7 +13,6 @@ public class CourseController : ControllerBase
   }
 
   [HttpGet]
-  [Authorize]
   public async Task<IActionResult> GetAllCourses()
   {
     try
