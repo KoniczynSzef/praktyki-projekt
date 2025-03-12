@@ -8,26 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import React from "react";
 import { signOut } from "@/auth/sign-out";
 import { useToast } from "@/hooks/use-toast";
-
-async function getUserEmail() {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return "";
-  }
-
-  const response = await fetch("http://localhost:5181/identity/manage/info");
-
-  if (!response.ok) {
-    return "";
-  }
-
-  const data = (await response.json()) as {
-    email: string;
-  };
-
-  return data.email;
-}
+import { authenticateUser } from "@/auth/authenticate-user";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,32 +17,17 @@ export function Header() {
   const { toast } = useToast();
 
   React.useEffect(() => {
-    async function getUserEmail() {
-      const token = localStorage.getItem("access_token");
-
-      if (!token) {
-        setUserEmail("");
-        console.log("no token");
-        return;
-      }
-
-      const response = await fetch(
-        "http://localhost:5181/identity/manage/info",
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
-
-      if (!response.ok) {
+    async function handleAuthenticate() {
+      const userData = await authenticateUser();
+      if (!userData) {
         setUserEmail("");
         return;
       }
 
-      const data = (await response.json()) as {
-        email: string;
-      };
-
-      setUserEmail(data.email);
+      setUserEmail(userData.email);
     }
-    getUserEmail();
+
+    handleAuthenticate();
   }, []);
 
   function handleSignOut() {
