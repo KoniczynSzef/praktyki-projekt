@@ -19,4 +19,10 @@ public class UserService : IUserService
 
     return user;
   }
+  public async Task<bool> IsUserSignedUpForCourse(string userId, string courseId)
+  {
+    var userCourse = await db.UserCourses.Where(uc => uc.UserId == userId && uc.CourseId == courseId).ToListAsync();
+
+    return userCourse.Count == 1;
+  }
 }
