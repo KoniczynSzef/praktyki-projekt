@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
             {
-              options.AddPolicy("AllowAllOrigin",
+              options.AddPolicy("AllowFrontend",
                   policy =>
                   {
                     policy.WithOrigins("http://localhost:3000")
@@ -65,7 +65,7 @@ if (app.Environment.IsDevelopment())
   app.UseSwaggerUI();
 }
 
-app.UseCors("AllowAllOrigin");
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
