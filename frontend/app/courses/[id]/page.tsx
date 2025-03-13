@@ -11,7 +11,11 @@ import { useEffect, useState } from "react";
 import { getCourseById } from "@/api/courses/get-course-by-id";
 import { getSuggestedCoursesByCourseId } from "@/api/courses/get-suggested-courses-by-course-id";
 import { Skeleton } from "@/components/ui/skeleton";
-import Confetti from "@/components/confetti";
+import { formatLevelEnum } from "@/utils/format-level-enum";
+
+const formatter = new Intl.DateTimeFormat("en-us", {
+  dateStyle: "medium",
+});
 
 function SuggestedCourseCard({ course }: { course: Course }) {
   return (
@@ -157,13 +161,13 @@ export default function CoursePage({ params }: { params: { id: string } }) {
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
                   Start Date
                 </h3>
-                <p>{String(course.startDate)}</p>
+                <p>{formatter.format(new Date(course.startDate))}</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
                   Duration
                 </h3>
-                <p>{course.durationInDays}</p>
+                <p>{course.durationInDays} days</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
@@ -175,7 +179,7 @@ export default function CoursePage({ params }: { params: { id: string } }) {
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
                   Level
                 </h3>
-                <p>{course.level}</p>
+                <p>{formatLevelEnum(course.level)}</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
