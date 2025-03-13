@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -17,21 +17,10 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { signUpForCourse } from "@/api/courses/sign-up-for-course";
-
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name must be at least 2 characters.",
-  }),
-  email: z.string().email({
-    message: "Please enter a valid email address.",
-  }),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
-    message: "Please enter a valid phone number.",
-  }),
-});
+import { AuthContext } from "@/auth/context/auth-context";
 
 interface CourseSignUpFormProps {
-  courseId: number;
+  courseId: string;
   onSuccess?: () => void;
 }
 
@@ -39,84 +28,37 @@ export function CourseSignUpForm({
   courseId,
   onSuccess,
 }: CourseSignUpFormProps) {
+  const { user } = useContext(AuthContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-    },
-  });
+  async function signUp() {
+    if (!user) {
+      toast({
+        title: "Unauthorized",
+        description:
+          "Before signing up for course, you have to sign in to the app.",
+      });
+      return;
+    }
+    setIsSubmitting(true);
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    await signUpForCourse(courseId);
+    await signUpForCourse(courseId, user.id);
     setIsSubmitting(false);
+
     toast({
       title: "Successfully signed up for the course!",
     });
 
-    form.reset();
-
     if (onSuccess) {
       onSuccess();
     }
+
+    setIsSubmitting(false);
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="John Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="john.doe@example.com"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone Number</FormLabel>
-              <FormControl>
-                <Input placeholder="+1234567890" {...field} />
-              </FormControl>
-              <FormDescription>
-                Please include your country code.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Signing up..." : "Sign Up for Course"}
-        </Button>
-      </form>
-    </Form>
+    <Button onClick={signUp} disabled={isSubmitting}>
+      {isSubmitting ? "Signing up..." : "Confirm"}
+    </Button>
   );
 }

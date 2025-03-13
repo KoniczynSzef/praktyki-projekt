@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import NextTopLoader from "nextjs-toploader";
+import { AuthProvider } from "@/auth/context/auth-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextTopLoader color="#1447e6" />
-          <div className="flex-grow">{children}</div>
+          <AuthProvider>
+            <div className="flex-grow">{children}</div>
+          </AuthProvider>
           <Toaster />
           <Footer />
         </ThemeProvider>

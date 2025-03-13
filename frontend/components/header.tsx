@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
@@ -10,53 +10,21 @@ import { signOut } from "@/auth/sign-out";
 import { useToast } from "@/hooks/use-toast";
 import { authenticateUser } from "@/auth/authenticate-user";
 import { refreshToken } from "@/auth/refresh-token";
+import { AuthContext } from "@/auth/context/auth-context";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
+  const { user, logout } = useContext(AuthContext);
 
   const { toast } = useToast();
 
-  React.useEffect(() => {
-    async function handleAuthenticate() {
-      const userData = await authenticateUser();
-      if (!userData) {
-        setUserEmail("");
-        return;
-      }
-
-      setUserEmail(userData.email);
-    }
-
-    try {
-      handleAuthenticate();
-    } catch (err) {
-      async function handleAuth() {
-        await refreshToken();
-
-        const data = await authenticateUser();
-        if (!data) {
-          setUserEmail("");
-          return;
-        }
-
-        setUserEmail(data.email);
-      }
-      handleAuth();
-
-      console.log(err);
-    }
-  }, []);
-
   function handleSignOut() {
-    signOut();
+    logout();
 
     toast({
       title: "Sign out",
       description: "You have been signed out successfully.",
     });
-
-    setUserEmail("");
   }
 
   return (
@@ -76,7 +44,7 @@ export function Header() {
             <Link href="/contact">Contact</Link>
           </Button>
           <ThemeToggle />
-          {userEmail ? (
+          {user ? (
             <Button variant="destructive" onClick={handleSignOut}>
               Sign out
             </Button>

@@ -1,4 +1,4 @@
-import { refreshToken } from "./refresh-token";
+import { User } from "./context/auth-context";
 
 export async function authenticateUser() {
   const token = localStorage.getItem("access_token");
@@ -16,9 +16,7 @@ export async function authenticateUser() {
     },
   });
 
-  const data = (await response.json()) as {
-    email: string;
-  };
+  const data = (await response.json()) as User;
 
   return data;
 }
