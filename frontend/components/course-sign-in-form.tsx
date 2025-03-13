@@ -1,30 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
-import { useEffect } from "react"
-import axios from "axios"
-const [courses, setCourses] = useState([])
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
-useEffect(() => {
-  async function fetchCourses() {
-    try {
-      const response = await axios.get("http://localhost:5181/api/courses")
-      setCourses(response.data)
-    } catch (error) {
-      console.error("Error fetching courses:", error)
-    }
-  }
-
-  fetchCourses()
-}, [])
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
@@ -42,10 +35,10 @@ const formSchema = z.object({
     message: "You must agree to the terms and conditions.",
   }),
   marketingAgreed: z.boolean(),
-})
+});
 
 export function CourseSignInForm({ courseId }: { courseId: string }) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,24 +50,27 @@ export function CourseSignInForm({ courseId }: { courseId: string }) {
       termsAgreed: false,
       marketingAgreed: false,
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     // Here you would typically send the form data to your backend
-    console.log(values)
-    await new Promise((resolve) => setTimeout(resolve, 2000)) // Simulating API call
-    setIsSubmitting(false)
+    console.log(values);
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating API call
+    setIsSubmitting(false);
     toast({
       title: "Successfully signed in to the course!",
       description: `Course ID: ${courseId}`,
-    })
-    form.reset()
+    });
+    form.reset();
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-md">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 max-w-md"
+      >
         <FormField
           control={form.control}
           name="name"
@@ -108,7 +104,11 @@ export function CourseSignInForm({ courseId }: { courseId: string }) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="john.doe@example.com" {...field} />
+                <Input
+                  type="email"
+                  placeholder="john.doe@example.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -133,7 +133,10 @@ export function CourseSignInForm({ courseId }: { courseId: string }) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>
@@ -153,11 +156,16 @@ export function CourseSignInForm({ courseId }: { courseId: string }) {
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
               <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>I agree to receive marketing emails</FormLabel>
-                <FormDescription>You can unsubscribe at any time.</FormDescription>
+                <FormDescription>
+                  You can unsubscribe at any time.
+                </FormDescription>
               </div>
             </FormItem>
           )}
@@ -167,6 +175,5 @@ export function CourseSignInForm({ courseId }: { courseId: string }) {
         </Button>
       </form>
     </Form>
-  )
+  );
 }
-

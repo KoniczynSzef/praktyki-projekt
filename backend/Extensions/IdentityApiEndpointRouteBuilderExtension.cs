@@ -339,17 +339,25 @@ public static class IdentityApiEndpointRouteBuilderExtensions
       });
     });
 
-    accountGroup.MapGet("/info", async Task<Results<Ok<InfoResponse>, ValidationProblem, NotFound>>
-        (ClaimsPrincipal claimsPrincipal, [FromServices] IServiceProvider sp) =>
-    {
-      var userManager = sp.GetRequiredService<UserManager<TUser>>();
-      if (await userManager.GetUserAsync(claimsPrincipal) is not { } user)
-      {
-        return TypedResults.NotFound();
-      }
+    accountGroup.MapGet("/info", async (ClaimsPrincipal claimsPrincipal, UserManager<TUser> userManager) =>
+ {
+   var user = await userManager.GetUserAsync(claimsPrincipal);
+   if (user == null)
+   {
+     return Results.NotFound();
+   }
 
-      return TypedResults.Ok(await CreateInfoResponseAsync(user, userManager));
-    });
+   var response = new UserInfoResponse
+   {
+     Email = await userManager.GetEmailAsync(user),
+     IsEmailConfirmed = await userManager.IsEmailConfirmedAsync(user),
+     Id = await userManager.GetUserIdAsync(user)
+   };
+
+   return Results.Ok(response);
+ });
+
+
 
     accountGroup.MapPost("/info", async Task<Results<Ok<InfoResponse>, ValidationProblem, NotFound>>
         (ClaimsPrincipal claimsPrincipal, [FromBody] InfoRequest infoRequest, HttpContext context, [FromServices] IServiceProvider sp) =>

@@ -10,6 +10,12 @@ import { Course } from "@/app/types/course";
 import { useEffect, useState } from "react";
 import { getCourseById } from "@/api/courses/get-course-by-id";
 import { getSuggestedCoursesByCourseId } from "@/api/courses/get-suggested-courses-by-course-id";
+import { Skeleton } from "@/components/ui/skeleton";
+import { formatLevelEnum } from "@/utils/format-level-enum";
+
+const formatter = new Intl.DateTimeFormat("en-us", {
+  dateStyle: "medium",
+});
 
 function SuggestedCourseCard({ course }: { course: Course }) {
   return (
@@ -40,6 +46,64 @@ function SuggestedCourseCard({ course }: { course: Course }) {
   );
 }
 
+function CoursePageSkeleton() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8">
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <Skeleton className="h-6 w-24 mb-2" />
+            <Skeleton className="h-10 w-3/4" />
+            <Skeleton className="h-64 w-full rounded-lg" />
+            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-6 w-1/2" />
+          </div>
+          <hr className="border-gray-200 dark:border-gray-700" />
+          <div>
+            <h2 className="mb-4 text-2xl font-bold">
+              <Skeleton className="h-8 w-40" />
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index}>
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-6 w-48" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <hr className="border-gray-200 dark:border-gray-700" />
+          <div>
+            <h2 className="mb-4 text-2xl font-bold">
+              <Skeleton className="h-8 w-40" />
+            </h2>
+            <div className="space-y-2">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Skeleton key={index} className="h-6 w-full" />
+              ))}
+            </div>
+          </div>
+          <div>
+            <h2 className="mb-8 text-2xl font-bold">
+              <Skeleton className="h-8 w-60" />
+            </h2>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="space-y-4">
+                  <Skeleton className="h-40 w-full rounded-lg" />
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-6 w-1/2" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
 export default function CoursePage({ params }: { params: { id: string } }) {
   const [course, setCourse] = useState<Course | null>(null);
   const [suggestedCourses, setSuggestedCourses] = useState<Course[]>([]);
@@ -54,7 +118,7 @@ export default function CoursePage({ params }: { params: { id: string } }) {
   }, []);
 
   if (!course) {
-    return "loading...";
+    return <CoursePageSkeleton />;
   }
 
   return (
@@ -97,13 +161,13 @@ export default function CoursePage({ params }: { params: { id: string } }) {
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
                   Start Date
                 </h3>
-                <p>{String(course.startDate)}</p>
+                <p>{formatter.format(new Date(course.startDate))}</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
                   Duration
                 </h3>
-                <p>{course.durationInDays}</p>
+                <p>{course.durationInDays} days</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
@@ -115,7 +179,7 @@ export default function CoursePage({ params }: { params: { id: string } }) {
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">
                   Level
                 </h3>
-                <p>{course.level}</p>
+                <p>{formatLevelEnum(course.level)}</p>
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400">

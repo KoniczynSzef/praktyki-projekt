@@ -1,0 +1,60 @@
+import { Course, Level } from "@/app/types/course";
+
+export const featuredCourses: Course[] = [
+  {
+    id: 1,
+    name: "Web Development Bootcamp",
+    description: "Master full-stack web development",
+    badge: "Programming",
+    price: 99.99,
+    startDate: new Date("2024-04-01"),
+    durationInDays: 60,
+    instructor: "John Doe",
+    level: Level.Beginner,
+    maxMembers: 50,
+    signedMembers: 35,
+    syllabusElements: ["HTML & CSS", "JavaScript", "React", "Node.js"],
+    imageURL:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    isRemote: true,
+  },
+  {
+    id: 2,
+    name: "Data Science Fundamentals",
+    description: "Learn the basics of data analysis",
+    badge: "Data",
+    price: 89.99,
+    startDate: new Date("2024-05-10"),
+    durationInDays: 45,
+    instructor: "Jane Smith",
+    level: Level.Intermediate,
+    maxMembers: 40,
+    signedMembers: 28,
+    syllabusElements: ["Python", "Pandas", "Data Visualization", "Statistics"],
+    imageURL:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    isRemote: true,
+  },
+  {
+    id: 5,
+    name: "Machine Learning Essentials",
+    description: "Dive into AI and machine learning",
+    badge: "Data",
+    price: 109.99,
+    startDate: new Date("2024-06-15"),
+    durationInDays: 75,
+    instructor: "Alice Johnson",
+    level: Level.Advanced,
+    maxMembers: 30,
+    signedMembers: 18,
+    syllabusElements: [
+      "Supervised Learning",
+      "Neural Networks",
+      "Deep Learning",
+      "TensorFlow",
+    ],
+    imageURL:
+      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80",
+    isRemote: false,
+  },
+];
