@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { getCourseById } from "@/api/courses/get-course-by-id";
 import { getSuggestedCoursesByCourseId } from "@/api/courses/get-suggested-courses-by-course-id";
 import { Skeleton } from "@/components/ui/skeleton";
+import Confetti from "@/components/confetti";
 
 function SuggestedCourseCard({ course }: { course: Course }) {
   return (

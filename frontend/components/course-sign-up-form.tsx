@@ -1,23 +1,10 @@
 "use client";
 
 import { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { toast } from "@/components/ui/use-toast";
 import { signUpForCourse } from "@/api/courses/sign-up-for-course";
 import { AuthContext } from "@/auth/context/auth-context";
+import { useToast } from "@/hooks/use-toast";
 
 interface CourseSignUpFormProps {
   courseId: string;
@@ -30,6 +17,7 @@ export function CourseSignUpForm({
 }: CourseSignUpFormProps) {
   const { user } = useContext(AuthContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   async function signUp() {
     if (!user) {
@@ -43,17 +31,21 @@ export function CourseSignUpForm({
     setIsSubmitting(true);
 
     await signUpForCourse(courseId, user.id);
-    setIsSubmitting(false);
-
-    toast({
-      title: "Successfully signed up for the course!",
-    });
 
     if (onSuccess) {
       onSuccess();
+      setTimeout(() => {
+        toast({
+          title: "Successfully signed up for the course!",
+        });
+      }, 100);
     }
 
     setIsSubmitting(false);
+    toast({
+      title: "Error",
+      description: "There was some error during your registration",
+    });
   }
 
   return (
