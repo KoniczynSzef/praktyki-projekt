@@ -16,6 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
+import { signUpForCourse } from "@/api/courses/sign-up-for-course";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -50,16 +51,14 @@ export function CourseSignUpForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
-    // Here you would typically send the form data to your backend
-    console.log(values);
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating API call
+    await signUpForCourse(courseId);
     setIsSubmitting(false);
     toast({
       title: "Successfully signed up for the course!",
-      description: `Course ID: ${courseId}`,
     });
+
     form.reset();
+
     if (onSuccess) {
       onSuccess();
     }
