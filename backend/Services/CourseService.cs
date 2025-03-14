@@ -95,7 +95,14 @@ public class CourseService : ICourseService
       throw new Exception("User is already signed up for the course");
     }
 
+    if (course.SignedMembers == course.MaxMembers)
+    {
+      throw new Exception("Maximum amount of members.");
+    }
+
     UserCourse userCourse = new UserCourse() { CourseId = id, UserId = userId };
+
+    course.SignedMembers += 1;
 
     await db.UserCourses.AddAsync(userCourse);
     await db.SaveChangesAsync();
