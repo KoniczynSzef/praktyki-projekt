@@ -69,7 +69,7 @@ public class CourseController : ControllerBase
     }
   }
 
-  [Authorize(Roles = "ADMIN")]
+  [Authorize(Policy = "AdminOnly")]
   [HttpPost]
   public async Task<IActionResult> CreateCourse(CreateCourseDto courseDto)
   {

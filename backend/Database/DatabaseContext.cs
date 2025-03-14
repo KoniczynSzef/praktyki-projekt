@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 public class DatabaseContext : IdentityDbContext<User>
 {
@@ -11,10 +12,28 @@ public class DatabaseContext : IdentityDbContext<User>
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-
     base.OnModelCreating(modelBuilder);
     modelBuilder.HasDefaultSchema("identity");
 
+    // Explicitly configure IdentityUserRole to prevent UserId1 issue
+    modelBuilder.Entity<IdentityUserRole<string>>()
+        .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+    modelBuilder.Entity<IdentityUserRole<string>>()
+        .HasOne<User>()
+        .WithMany()
+        .HasForeignKey(ur => ur.UserId)
+        .IsRequired()
+        .OnDelete(DeleteBehavior.Cascade);
+
+    modelBuilder.Entity<IdentityUserRole<string>>()
+        .HasOne<IdentityRole>()
+        .WithMany()
+        .HasForeignKey(ur => ur.RoleId)
+        .IsRequired()
+        .OnDelete(DeleteBehavior.Cascade);
+
+    // UserCourse Many-to-Many Relationship
     modelBuilder.Entity<UserCourse>()
         .HasKey(uc => new { uc.UserId, uc.CourseId });
 

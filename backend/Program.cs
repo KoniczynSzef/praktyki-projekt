@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,13 +52,31 @@ builder.Services.AddSwaggerGen(opt =>
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<DatabaseContext>();
-builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<User>().AddRoles<IdentityRole>().AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddAuthorization(options =>
+{
+  options.AddPolicy("AdminOnly", policy =>
+  {
+    policy.RequireRole("Admin");
+  });
+  options.AddPolicy("AdminOrUser", policy =>
+  {
+    policy.RequireRole("Admin", "User");
+  });
+});
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+  var serviceProvider = scope.ServiceProvider;
+  var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+  await SeedRolesAsync(roleManager);
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -74,3 +93,16 @@ app.MapGroup("/identity").MapCustomIdentityApi<User>();
 app.MapControllers();
 
 app.Run();
+
+async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+{
+  string[] roles = { "Admin", "User" };
+
+  foreach (var role in roles)
+  {
+    if (!await roleManager.RoleExistsAsync(role))
+    {
+      await roleManager.CreateAsync(new IdentityRole(role));
+    }
+  }
+}

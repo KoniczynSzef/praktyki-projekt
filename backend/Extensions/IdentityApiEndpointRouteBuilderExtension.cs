@@ -89,6 +89,8 @@ public static class IdentityApiEndpointRouteBuilderExtensions
         return CreateValidationProblem(result);
       }
 
+      await userManager.AddToRoleAsync(user, "User");
+
       await SendConfirmationEmailAsync(user, userManager, context, email);
       return TypedResults.Ok();
     });

@@ -23,6 +23,7 @@ public class Course
 
   public Course(CreateCourseDto course)
   {
+    this.Id = Guid.NewGuid().ToString();
     this.Name = course.Name;
     this.Description = course.Description;
     this.Badge = course.Badge;
