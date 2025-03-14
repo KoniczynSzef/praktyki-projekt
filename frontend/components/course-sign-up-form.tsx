@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { signUpForCourse } from "@/api/courses/sign-up-for-course";
 import { AuthContext } from "@/auth/context/auth-context";
 import { useToast } from "@/hooks/use-toast";
+import confetti from "canvas-confetti";
+import { useRouter } from "next/navigation";
 
 interface CourseSignUpFormProps {
   courseId: string;
@@ -42,6 +44,16 @@ export function CourseSignUpForm({
           title: "Successfully signed up for the course!",
         });
       }, 100);
+
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 350);
     }
 
     setIsSubmitting(false);
