@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { authenticateUser } from "../authenticate-user";
 import { refreshToken } from "../refresh-token";
+import { isUserAdmin } from "../is-user-admin";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 export interface User {
   email: string;
@@ -23,6 +25,8 @@ export const AuthContext = React.createContext<AuthContext>({
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const logout = () => {
     localStorage.removeItem("access_token");
@@ -35,12 +39,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       userData = await authenticateUser();
     } catch (err) {
-      console.log("here");
       await refreshToken();
       userData = await authenticateUser();
     }
 
     setUser(userData || null);
+    if (!userData) {
+      console.log("no data");
+    }
+
+    if (pathname === "/dashboard") {
+      if (!userData) return;
+
+      const isAdmin = await isUserAdmin(userData?.id);
+      if (!isAdmin) {
+        router.push("/");
+      }
+    }
   }
 
   useEffect(() => {
