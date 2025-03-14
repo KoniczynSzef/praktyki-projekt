@@ -96,6 +96,7 @@ public class CourseService : ICourseService
     }
 
     UserCourse userCourse = new UserCourse() { CourseId = id, UserId = userId };
+
     await db.UserCourses.AddAsync(userCourse);
     await db.SaveChangesAsync();
 

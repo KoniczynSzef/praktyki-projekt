@@ -14,7 +14,7 @@ export async function signUpForCourse(courseId: string, userId: string) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: userId,
+      body: JSON.stringify(userId),
       credentials: "include",
     },
   );
