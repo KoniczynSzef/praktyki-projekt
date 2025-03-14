@@ -1,3 +1,5 @@
+import { BACKEND_API_URL } from "../api-url";
+
 export async function signUpForCourse(courseId: string, userId: string) {
   const token = localStorage.getItem("access_token");
 
@@ -7,7 +9,7 @@ export async function signUpForCourse(courseId: string, userId: string) {
   }
 
   const response = await fetch(
-    `http://localhost:5181/api/Course/SignUpForCourse/${courseId}/signup`,
+    `${BACKEND_API_URL}/api/Course/SignUpForCourse/${courseId}/signup`,
     {
       method: "POST",
       headers: {

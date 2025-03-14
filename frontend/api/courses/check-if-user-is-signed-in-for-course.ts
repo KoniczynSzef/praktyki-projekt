@@ -1,3 +1,5 @@
+import { BACKEND_API_URL } from "../api-url";
+
 export async function checkIfUserIsSignedInForCourse(
   userId: string,
   courseId: string,
@@ -9,7 +11,7 @@ export async function checkIfUserIsSignedInForCourse(
   }
 
   const response = await fetch(
-    "http://localhost:5181/api/User/CheckIfUserIsSignedInForCourse",
+    `${BACKEND_API_URL}/api/User/CheckIfUserIsSignedInForCourse`,
     {
       method: "POST",
       body: JSON.stringify({

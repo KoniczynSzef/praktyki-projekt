@@ -1,3 +1,5 @@
+import { BACKEND_API_URL } from "@/api/api-url";
+
 export async function isUserAdmin(userId: string) {
   const token = localStorage.getItem("access_token");
 
@@ -5,7 +7,7 @@ export async function isUserAdmin(userId: string) {
     return false;
   }
 
-  const response = await fetch("http://localhost:5181/api/User/IsUserAdmin", {
+  const response = await fetch(`${BACKEND_API_URL}/api/User/IsUserAdmin`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

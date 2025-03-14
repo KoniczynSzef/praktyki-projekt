@@ -1,5 +1,6 @@
 import { ApiLoginResponse } from "@/app/types/auth/ApiLoginResponse";
 import { setToken } from "./set-token";
+import { BACKEND_API_URL } from "@/api/api-url";
 
 type ApiRefreshTokenResponse = ApiLoginResponse;
 
@@ -10,7 +11,7 @@ export async function refreshToken() {
     return;
   }
 
-  const response = await fetch("http://localhost:5181/identity/refresh", {
+  const response = await fetch(`${BACKEND_API_URL}/identity/refresh`, {
     method: "POST",
     body: JSON.stringify({ refreshToken: token }),
     headers: {

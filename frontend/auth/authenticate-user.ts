@@ -1,3 +1,4 @@
+import { BACKEND_API_URL } from "@/api/api-url";
 import { User } from "./context/auth-context";
 
 export async function authenticateUser() {
@@ -7,7 +8,7 @@ export async function authenticateUser() {
     return;
   }
 
-  const response = await fetch("http://localhost:5181/identity/manage/info", {
+  const response = await fetch(`${BACKEND_API_URL}/identity/manage/info`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
