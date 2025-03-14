@@ -26,4 +26,11 @@ public class UserController : ControllerBase
       throw err;
     }
   }
+
+  [HttpPost]
+  [Authorize]
+  public async Task<IActionResult> IsUserAdmin([FromBody] string id)
+  {
+    return Ok(await userService.IsUserAdmin(id));
+  }
 }
