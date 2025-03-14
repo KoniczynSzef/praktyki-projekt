@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,6 +22,8 @@ import { setToken } from "@/auth/set-token";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import Page from "@/app/courses/[id]/sign-in/page";
+import { revalidatePath } from "next/cache";
+import { AuthContext } from "@/auth/context/auth-context";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -37,6 +39,7 @@ export function SignInForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { checkUser } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -81,6 +84,7 @@ export function SignInForm() {
     });
 
     router.push("/");
+    await checkUser();
   }
 
   return (

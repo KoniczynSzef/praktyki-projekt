@@ -12,11 +12,13 @@ export interface User {
 interface AuthContext {
   user: User | null;
   logout: () => void;
+  checkUser: () => Promise<void>;
 }
 
 export const AuthContext = React.createContext<AuthContext>({
   user: null,
   logout: () => {},
+  checkUser: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -28,24 +30,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   };
 
-  useEffect(() => {
-    async function checkUser() {
-      let userData: User | undefined;
-      try {
-        userData = await authenticateUser();
-      } catch (err) {
-        console.log("here");
-        await refreshToken();
-        userData = await authenticateUser();
-      }
-      setUser(userData || null);
+  async function checkUser() {
+    let userData: User | undefined;
+    try {
+      userData = await authenticateUser();
+    } catch (err) {
+      console.log("here");
+      await refreshToken();
+      userData = await authenticateUser();
     }
+    setUser(userData || null);
+  }
 
+  useEffect(() => {
     checkUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, logout }}>
+    <AuthContext.Provider value={{ user, logout, checkUser }}>
       {children}
     </AuthContext.Provider>
   );
