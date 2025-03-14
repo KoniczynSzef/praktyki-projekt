@@ -1,11 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Pencil, Trash2 } from "lucide-react"
-import { Card } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Pencil, Trash2 } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,64 +22,50 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import { Course } from "@/app/types/course";
+import { getAllCourses } from "@/api/courses/get-all-courses";
 
-// This would typically come from your backend
-const courses = [
-  {
-    id: 1,
-    subject: "Web Development Bootcamp",
-    author: "Jane Doe",
-    category: "Programming",
-    maxParticipants: 30,
-    currentParticipants: 25,
-    startDate: "2024-03-15",
-    isRemote: true,
-  },
-  {
-    id: 2,
-    subject: "UI/UX Design Fundamentals",
-    author: "John Smith",
-    category: "Design",
-    maxParticipants: 20,
-    currentParticipants: 15,
-    startDate: "2024-03-20",
-    isRemote: false,
-  },
-]
+const formatter = new Intl.DateTimeFormat("en-us", {
+  dateStyle: "medium",
+});
 
 export function CourseList() {
-  const [selectedCourse, setSelectedCourse] = useState<number | null>(null)
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [courseToDelete, setCourseToDelete] = useState<number | null>(null)
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [courseToDelete, setCourseToDelete] = useState<string | null>(null);
 
-  const handleEdit = (courseId: number) => {
-    setSelectedCourse(courseId)
-  }
+  useEffect(() => {
+    async function handleGetAllCourses() {
+      setCourses(await getAllCourses());
+    }
 
-  const handleDeleteClick = (courseId: number) => {
-    setCourseToDelete(courseId)
-    setShowDeleteDialog(true)
-  }
+    handleGetAllCourses();
+  }, []);
+
+  const handleEdit = (courseId: string) => {};
+
+  const handleDeleteClick = (courseId: string) => {
+    setCourseToDelete(courseId);
+    setShowDeleteDialog(true);
+  };
 
   const handleDeleteConfirm = async () => {
-    if (courseToDelete) {
-      try {
-        // Here you would typically make an API call to delete the course
-        console.log("Deleting course:", courseToDelete)
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 500))
-        // After successful deletion, you would typically refresh the course list
-      } catch (error) {
-        console.error("Error deleting course:", error)
-      } finally {
-        setShowDeleteDialog(false)
-        setCourseToDelete(null)
-      }
-    }
-  }
-
-  const courseToDeleteData = courses.find((course) => course.id === courseToDelete)
+    // if (courseToDelete) {
+    //   try {
+    //     // Here you would typically make an API call to delete the course
+    //     console.log("Deleting course:", courseToDelete);
+    //     // Simulate API call
+    //     await new Promise((resolve) => setTimeout(resolve, 500));
+    //     // After successful deletion, you would typically refresh the course list
+    //   } catch (error) {
+    //     console.error("Error deleting course:", error);
+    //   } finally {
+    //     setShowDeleteDialog(false);
+    //     setCourseToDelete(null);
+    //   }
+    // }
+  };
 
   return (
     <>
@@ -80,25 +73,50 @@ export function CourseList() {
         <Table>
           <TableHeader>
             <TableRow className="border-zinc-200 dark:border-zinc-800">
-              <TableHead className="text-zinc-600 dark:text-zinc-400">Subject</TableHead>
-              <TableHead className="text-zinc-600 dark:text-zinc-400">Author</TableHead>
-              <TableHead className="text-zinc-600 dark:text-zinc-400">Category</TableHead>
-              <TableHead className="text-zinc-600 dark:text-zinc-400">Participants</TableHead>
-              <TableHead className="text-zinc-600 dark:text-zinc-400">Start Date</TableHead>
-              <TableHead className="text-zinc-600 dark:text-zinc-400">Format</TableHead>
-              <TableHead className="text-right text-zinc-600 dark:text-zinc-400">Actions</TableHead>
+              <TableHead className="text-zinc-600 dark:text-zinc-400">
+                Subject
+              </TableHead>
+              <TableHead className="text-zinc-600 dark:text-zinc-400">
+                Author
+              </TableHead>
+              <TableHead className="text-zinc-600 dark:text-zinc-400">
+                Category
+              </TableHead>
+              <TableHead className="text-zinc-600 dark:text-zinc-400">
+                Participants
+              </TableHead>
+              <TableHead className="text-zinc-600 dark:text-zinc-400">
+                Start Date
+              </TableHead>
+              <TableHead className="text-zinc-600 dark:text-zinc-400">
+                Format
+              </TableHead>
+              <TableHead className="text-right text-zinc-600 dark:text-zinc-400">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {courses.map((course) => (
-              <TableRow key={course.id} className="border-zinc-200 dark:border-zinc-800">
-                <TableCell className="font-medium text-zinc-900 dark:text-white">{course.subject}</TableCell>
-                <TableCell className="text-zinc-700 dark:text-zinc-300">{course.author}</TableCell>
-                <TableCell className="text-zinc-700 dark:text-zinc-300">{course.category}</TableCell>
-                <TableCell className="text-zinc-700 dark:text-zinc-300">
-                  {course.currentParticipants}/{course.maxParticipants}
+              <TableRow
+                key={course.id}
+                className="border-zinc-200 dark:border-zinc-800"
+              >
+                <TableCell className="font-medium text-zinc-900 dark:text-white">
+                  {course.name}
                 </TableCell>
-                <TableCell className="text-zinc-700 dark:text-zinc-300">{course.startDate}</TableCell>
+                <TableCell className="text-zinc-700 dark:text-zinc-300">
+                  {course.instructor}
+                </TableCell>
+                <TableCell className="text-zinc-700 dark:text-zinc-300">
+                  {course.badge}
+                </TableCell>
+                <TableCell className="text-zinc-700 dark:text-zinc-300">
+                  {course.signedMembers}/{course.maxMembers}
+                </TableCell>
+                <TableCell className="text-zinc-700 dark:text-zinc-300">
+                  {formatter.format(new Date(course.startDate))}
+                </TableCell>
                 <TableCell>
                   <Badge
                     variant={course.isRemote ? "outline" : "secondary"}
@@ -134,10 +152,13 @@ export function CourseList() {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete this course?</AlertDialogTitle>
+            <AlertDialogTitle>
+              Are you sure you want to delete this course?
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              You are about to delete &quot;{courseToDeleteData?.subject}&quot;. This action cannot be undone and will
-              remove all course data including enrolled students and materials.
+              You are about to delete course title&quot;. This action cannot be
+              undone and will remove all course data including enrolled students
+              and materials.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -152,6 +173,5 @@ export function CourseList() {
         </AlertDialogContent>
       </AlertDialog>
     </>
-  )
+  );
 }
-

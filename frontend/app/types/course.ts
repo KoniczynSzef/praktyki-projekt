@@ -15,6 +15,8 @@ export interface Course {
   isRemote: boolean;
 }
 
+export type CreateCourseDto = Omit<Course, "id">;
+
 export enum Level {
   Beginner,
   Intermediate,

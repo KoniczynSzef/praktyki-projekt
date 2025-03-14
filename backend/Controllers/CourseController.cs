@@ -76,7 +76,7 @@ public class CourseController : ControllerBase
     try
     {
       var createdCourse = await courseService.CreateCourse(courseDto);
-      return CreatedAtAction(nameof(GetCourseById), new { Id = createdCourse.Id }, courseDto);
+      return Ok("Created course successfully!");
     }
     catch (Exception err)
     {

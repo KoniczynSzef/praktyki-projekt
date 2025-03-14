@@ -15,3 +15,19 @@ export function formatLevelEnum(level: Level) {
 
   return "Expert";
 }
+
+export function formatStringToLevelEnum(level: string) {
+  if (level === "Beginner") {
+    return Level.Beginner;
+  }
+
+  if (level === "Intermediate") {
+    return Level.Intermediate;
+  }
+
+  if (level === "Advanced") {
+    return Level.Advanced;
+  }
+
+  return Level.Expert;
+}
