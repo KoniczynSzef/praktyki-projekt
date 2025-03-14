@@ -7,11 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { CourseSignUpModal } from "@/components/course-sign-up-modal";
 import { Course } from "@/app/types/course";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getCourseById } from "@/api/courses/get-course-by-id";
 import { getSuggestedCoursesByCourseId } from "@/api/courses/get-suggested-courses-by-course-id";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatLevelEnum } from "@/utils/format-level-enum";
+import { checkIfUserIsSignedInForCourse } from "@/api/courses/check-if-user-is-signed-in-for-course";
+import { AuthContext } from "@/auth/context/auth-context";
 
 const formatter = new Intl.DateTimeFormat("en-us", {
   dateStyle: "medium",
@@ -105,6 +107,8 @@ function CoursePageSkeleton() {
 }
 
 export default function CoursePage({ params }: { params: { id: string } }) {
+  const { user } = useContext(AuthContext);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [course, setCourse] = useState<Course | null>(null);
   const [suggestedCourses, setSuggestedCourses] = useState<Course[]>([]);
 
@@ -112,10 +116,17 @@ export default function CoursePage({ params }: { params: { id: string } }) {
     async function handleGetCourseById() {
       setCourse(await getCourseById(params.id));
       setSuggestedCourses(await getSuggestedCoursesByCourseId(params.id));
+
+      if (!user) {
+        setIsSignedIn(false);
+        return;
+      }
+
+      setIsSignedIn(await checkIfUserIsSignedInForCourse(user.id, params.id));
     }
 
     handleGetCourseById();
-  }, []);
+  }, [user]);
 
   if (!course) {
     return <CoursePageSkeleton />;
@@ -145,10 +156,16 @@ export default function CoursePage({ params }: { params: { id: string } }) {
               <p className="text-3xl font-bold text-blue-600">
                 ${course.price.toFixed(2)}
               </p>
-              <CourseSignUpModal
-                courseId={course.id}
-                courseTitle={course.name}
-              />
+              {isSignedIn ? (
+                <p className="border-l-4 border-l-yellow-500 pl-2">
+                  You are already signed up for course
+                </p>
+              ) : (
+                <CourseSignUpModal
+                  courseId={course.id}
+                  courseTitle={course.name}
+                />
+              )}
             </div>
           </div>
 

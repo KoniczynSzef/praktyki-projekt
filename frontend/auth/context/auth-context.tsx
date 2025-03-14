@@ -39,6 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await refreshToken();
       userData = await authenticateUser();
     }
+
     setUser(userData || null);
   }
 
