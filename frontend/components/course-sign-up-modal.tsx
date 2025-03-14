@@ -30,13 +30,17 @@ export function CourseSignUpModal({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Sign Up for {courseTitle}</DialogTitle>
-          <DialogDescription>
-            Fill out the form below to sign up for this course. We'll contact
-            you with further details.
+          <DialogTitle>
+            Sign Up for <span className="font-bold italic">{courseTitle}</span>
+          </DialogTitle>
+          <DialogDescription className="py-4">
+            This action will enroll you in the selected course. Once confirmed,
+            you will gain access to all course materials and upcoming sessions.
+            Are you sure you want to proceed with signing up?
           </DialogDescription>
         </DialogHeader>
         <CourseSignUpForm
+          onCancel={() => setIsOpen(false)}
           courseId={courseId}
           onSuccess={() => setIsOpen(false)}
         />

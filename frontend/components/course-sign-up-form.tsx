@@ -9,11 +9,13 @@ import { useToast } from "@/hooks/use-toast";
 interface CourseSignUpFormProps {
   courseId: string;
   onSuccess?: () => void;
+  onCancel: () => void;
 }
 
 export function CourseSignUpForm({
   courseId,
   onSuccess,
+  onCancel,
 }: CourseSignUpFormProps) {
   const { user } = useContext(AuthContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,6 +30,7 @@ export function CourseSignUpForm({
       });
       return;
     }
+
     setIsSubmitting(true);
 
     await signUpForCourse(courseId, user.id);
@@ -49,8 +52,13 @@ export function CourseSignUpForm({
   }
 
   return (
-    <Button onClick={signUp} disabled={isSubmitting}>
-      {isSubmitting ? "Signing up..." : "Confirm"}
-    </Button>
+    <div className="flex gap-2 items-center ">
+      <Button onClick={onCancel} variant={"secondary"} className="w-full">
+        Cancel
+      </Button>
+      <Button onClick={signUp} disabled={isSubmitting} className="w-full">
+        {isSubmitting ? "Signing up..." : "Confirm"}
+      </Button>
+    </div>
   );
 }
