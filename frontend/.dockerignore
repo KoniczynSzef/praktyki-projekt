@@ -1,0 +1,36 @@
+# Node modules and dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+yarn.lock
+.pnpm-lock.yaml
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+.next
+out
+dist
+
+# Git and environment files
+.git
+.gitignore
+.env.development.local
+.env.production.local
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+
+# Docker-specific files
+Dockerfile
+.dockerignore
+

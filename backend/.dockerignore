@@ -1,0 +1,36 @@
+# Build artifacts
+bin
+obj
+out
+*.exe
+*.dll
+*.pdb
+*.cache
+
+# User-specific and system files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln*
+*.user
+
+# Logs and debug files
+logs
+*.log
+
+# Environment files
+.env
+.env.local
+secrets.json
+
+# Dependency files
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Docker-specific files
+Dockerfile
+.dockerignore
+
