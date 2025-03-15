@@ -45,7 +45,7 @@ export function Header() {
             <Button
               variant="destructive"
               onClick={handleSignOut}
-              className="dark:bg-red-800 dark:hover:bg-red-900"
+              className="bg-red-800 hover:bg-red-900"
             >
               Sign out
             </Button>

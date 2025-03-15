@@ -1,5 +1,5 @@
-import { Header } from "@/components/header"
-import { Timeline } from "@/components/timeline"
+import { Header } from "@/components/header";
+import { Timeline } from "@/components/timeline";
 
 const timelineItems = [
   {
@@ -26,7 +26,8 @@ const timelineItems = [
   {
     year: "2020",
     title: "Introduction of Live Classes",
-    description: "We introduced live online classes, bringing real-time interaction between instructors and students.",
+    description:
+      "We introduced live online classes, bringing real-time interaction between instructors and students.",
     image: "/images/live-classes.jpg",
   },
   {
@@ -36,7 +37,7 @@ const timelineItems = [
       "Implemented AI-driven personalized learning paths to help students achieve their goals more effectively.",
     image: "/images/ai-learning-paths.jpg",
   },
-]
+];
 
 export default function AboutPage() {
   return (
@@ -44,26 +45,28 @@ export default function AboutPage() {
       <Header />
       <main className="container mx-auto px-4 py-8">
         <h1 className="mb-8 text-4xl font-bold text-center">About LearnHub</h1>
-        <div className="max-w-3xl mx-auto mb-12">
+        <div className="max-w-3xl mx-auto mb-16 font-medium text-slate-700 dark:text-slate-400">
           <p className="text-lg mb-4">
-            LearnHub is a leading online learning platform dedicated to providing high-quality education to learners
-            worldwide. Our mission is to make learning accessible, engaging, and effective for everyone, regardless of
-            their location or background.
+            LearnHub is a leading online learning platform dedicated to
+            providing high-quality education to learners worldwide. Our mission
+            is to make learning accessible, engaging, and effective for
+            everyone, regardless of their location or background.
           </p>
           <p className="text-lg mb-4">
-            With a diverse range of courses taught by industry experts, we empower individuals to acquire new skills,
-            advance their careers, and pursue their passions. Our innovative approach to online education combines
-            cutting-edge technology with proven pedagogical methods to create an immersive and interactive learning
-            experience.
+            With a diverse range of courses taught by industry experts, we
+            empower individuals to acquire new skills, advance their careers,
+            and pursue their passions. Our innovative approach to online
+            education combines cutting-edge technology with proven pedagogical
+            methods to create an immersive and interactive learning experience.
           </p>
           <p className="text-lg">
-            Join us on our journey to revolutionize education and unlock the potential of learners around the globe.
+            Join us on our journey to revolutionize education and unlock the
+            potential of learners around the globe.
           </p>
         </div>
         <h2 className="text-3xl font-bold mb-8 text-center">Our Journey</h2>
         <Timeline items={timelineItems} />
       </main>
     </div>
-  )
+  );
 }
-
