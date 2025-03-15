@@ -74,6 +74,13 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+  var services = scope.ServiceProvider;
+
+  var context = services.GetRequiredService<DatabaseContext>();
+  if (context.Database.GetPendingMigrations().Any())
+  {
+    context.Database.Migrate();
+  }
   var serviceProvider = scope.ServiceProvider;
   var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
   await SeedRolesAsync(roleManager);

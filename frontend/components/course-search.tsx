@@ -25,7 +25,9 @@ export function CourseSearch({ onSearch }: CourseSearchProps) {
       onSubmit={handleSearch}
       className="flex w-full max-w-sm items-center space-x-2"
     >
-      <Label htmlFor="course-search">Search courses</Label>
+      <Label className="sr-only" htmlFor="course-search">
+        Search courses
+      </Label>
       <Input
         name="course-search"
         id="course-search"

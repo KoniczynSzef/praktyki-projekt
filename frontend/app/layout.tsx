@@ -11,8 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "LearnHub",
-  description: "Online learning platform",
-  generator: "v0.dev",
+  description: "Online learning platform with courses",
 };
 
 export default function RootLayout({

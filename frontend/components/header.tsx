@@ -6,10 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import React from "react";
-import { signOut } from "@/auth/sign-out";
 import { useToast } from "@/hooks/use-toast";
-import { authenticateUser } from "@/auth/authenticate-user";
-import { refreshToken } from "@/auth/refresh-token";
 import { AuthContext } from "@/auth/context/auth-context";
 
 export function Header() {
@@ -30,7 +27,10 @@ export function Header() {
   return (
     <header className="bg-background shadow-sm">
       <nav className="container mx-auto flex items-center justify-between px-4 py-6">
-        <Link href="/" className="text-2xl font-bold text-primary">
+        <Link
+          href="/"
+          className="text-2xl font-bold text-primary dark:text-blue-500 hover:underline"
+        >
           LearnHub
         </Link>
         <div className="hidden items-center space-x-6 md:flex">
@@ -45,7 +45,11 @@ export function Header() {
           </Button>
           <ThemeToggle />
           {user ? (
-            <Button variant="destructive" onClick={handleSignOut}>
+            <Button
+              variant="destructive"
+              onClick={handleSignOut}
+              className="bg-red-800 hover:bg-red-900"
+            >
               Sign out
             </Button>
           ) : (
