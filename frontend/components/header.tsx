@@ -6,10 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import React from "react";
-import { signOut } from "@/auth/sign-out";
 import { useToast } from "@/hooks/use-toast";
-import { authenticateUser } from "@/auth/authenticate-user";
-import { refreshToken } from "@/auth/refresh-token";
 import { AuthContext } from "@/auth/context/auth-context";
 
 export function Header() {
@@ -45,7 +42,11 @@ export function Header() {
           </Button>
           <ThemeToggle />
           {user ? (
-            <Button variant="destructive" onClick={handleSignOut}>
+            <Button
+              variant="destructive"
+              onClick={handleSignOut}
+              className="dark:bg-red-800 dark:hover:bg-red-900"
+            >
               Sign out
             </Button>
           ) : (
