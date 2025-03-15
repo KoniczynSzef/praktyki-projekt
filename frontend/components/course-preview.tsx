@@ -9,7 +9,6 @@ import { Course } from "@/app/types/course";
 import { useEffect, useState } from "react";
 import { getFeaturedCourses } from "@/api/courses/get-featured-courses";
 import { Skeleton } from "./ui/skeleton";
-import { count } from "console";
 import { featuredCourses } from "@/assets/featured-courses";
 
 function FeaturedCourseCard({
@@ -21,12 +20,12 @@ function FeaturedCourseCard({
 }) {
   return (
     <Card
-      className={`flex flex-col h-full overflow-hidden ${isTopRanked ? "border-2 border-indigo-500 rounded-lg" : ""}`}
+      className={`flex flex-col h-full overflow-hidden ${isTopRanked ? "border-2 border-indigo-500 rounded-lg" : "border-2 border-secondary"}`}
     >
       <div className="relative">
         <Image
           src={course.imageURL || "/placeholder.svg"}
-          alt={course.name}
+          alt={`Image showing ${course.name}`}
           width={600}
           height={300}
           className="w-full h-48 object-cover filter blur-[2px]"
@@ -43,9 +42,9 @@ function FeaturedCourseCard({
         <p className="text-gray-600 dark:text-gray-300 mb-4">
           {course.description}
         </p>
-        <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+        <h4 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
           ${course.price.toFixed(2)}
-        </p>
+        </h4>
       </CardContent>
       <CardFooter className="bg-gray-50 dark:bg-gray-800 p-6">
         <Button asChild className="w-full group">
@@ -92,23 +91,23 @@ export function CoursePreview() {
         <div className="flex flex-col gap-6 md:hidden">
           {loading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <Skeleton key={i} className="w-full h-64" />
-              ))
+              <Skeleton key={i} className="w-full h-64" />
+            ))
             : courses.length < 3
               ? featuredCourses.map((course, idx) => (
-                  <FeaturedCourseCard
-                    key={course.id}
-                    course={course}
-                    isTopRanked={idx === 0}
-                  />
-                ))
+                <FeaturedCourseCard
+                  key={course.id}
+                  course={course}
+                  isTopRanked={idx === 0}
+                />
+              ))
               : courses.map((course, idx) => (
-                  <FeaturedCourseCard
-                    key={course.id}
-                    course={course}
-                    isTopRanked={idx === 0}
-                  />
-                ))}
+                <FeaturedCourseCard
+                  key={course.id}
+                  course={course}
+                  isTopRanked={idx === 0}
+                />
+              ))}
         </div>
 
         {/* Desktop Layout */}

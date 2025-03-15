@@ -118,7 +118,10 @@ function TestimonialCard({
 
         <div className="mb-6 flex items-center">
           <Avatar className="h-14 w-14 rounded-full border-2 border-primary">
-            <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
+            <AvatarImage
+              src={testimonial.avatar}
+              alt={`${testimonial.name}'s opinion`}
+            />
             <AvatarFallback>
               {testimonial.name
                 .split(" ")
