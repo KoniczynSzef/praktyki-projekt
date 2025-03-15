@@ -27,7 +27,10 @@ export function Header() {
   return (
     <header className="bg-background shadow-sm">
       <nav className="container mx-auto flex items-center justify-between px-4 py-6">
-        <Link href="/" className="text-2xl font-bold text-primary">
+        <Link
+          href="/"
+          className="text-2xl font-bold text-primary dark:text-blue-500 hover:underline"
+        >
           LearnHub
         </Link>
         <div className="hidden items-center space-x-6 md:flex">
