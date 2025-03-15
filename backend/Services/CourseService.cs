@@ -50,17 +50,26 @@ public class CourseService : ICourseService
 
   public async Task<IEnumerable<Course>> GetFeaturedCourses()
   {
-    Random random = new Random();
-    int max = await db.Courses.CountAsync();
-
-    List<Course> selectedCourses = new List<Course>();
     var allCourses = await this.GetAllCourses();
+    int courseCount = allCourses.Count();
 
+    if (courseCount == 0)
+    {
+      return new List<Course>();
+    }
+
+    if (courseCount <= 3)
+    {
+      return allCourses;
+    }
+
+    Random random = new Random();
+    List<Course> selectedCourses = new List<Course>();
     List<int> indices = new List<int>();
 
     while (indices.Count < 3)
     {
-      int rand = random.Next(0, max);
+      int rand = random.Next(0, courseCount);
 
       if (!indices.Contains(rand))
       {
