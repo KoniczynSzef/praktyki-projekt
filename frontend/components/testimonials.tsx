@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback } from "react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star, StarHalf, Quote } from "lucide-react"
+import { useState, useEffect, useCallback } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Star, StarHalf, Quote } from "lucide-react";
 
 const testimonials = [
   {
@@ -38,40 +38,48 @@ const testimonials = [
     rating: 5,
     company: "GrowthGenius Marketing",
   },
-]
+];
 
 function StarRating({ rating }: { rating: number }) {
-  const fullStars = Math.floor(rating)
-  const hasHalfStar = rating % 1 !== 0
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 !== 0;
 
   return (
     <div className="flex">
       {[...Array(fullStars)].map((_, i) => (
         <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
       ))}
-      {hasHalfStar && <StarHalf className="h-5 w-5 fill-yellow-400 text-yellow-400" />}
+      {hasHalfStar && (
+        <StarHalf className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+      )}
     </div>
-  )
+  );
 }
 
-function TypewriterEffect({ text, onComplete }: { text: string; onComplete: () => void }) {
-  const [displayText, setDisplayText] = useState("")
-  const [currentIndex, setCurrentIndex] = useState(0)
+function TypewriterEffect({
+  text,
+  onComplete,
+}: {
+  text: string;
+  onComplete: () => void;
+}) {
+  const [displayText, setDisplayText] = useState("");
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
-        setDisplayText((prevText) => prevText + text[currentIndex])
-        setCurrentIndex((prevIndex) => prevIndex + 1)
-      }, 30)
+        setDisplayText((prevText) => prevText + text[currentIndex]);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+      }, 30);
 
-      return () => clearTimeout(timeout)
+      return () => clearTimeout(timeout);
     } else {
-      onComplete()
+      onComplete();
     }
-  }, [currentIndex, text, onComplete])
+  }, [currentIndex, text, onComplete]);
 
-  return <span>{displayText}</span>
+  return <span>{displayText}</span>;
 }
 
 function TestimonialCard({
@@ -79,27 +87,31 @@ function TestimonialCard({
   isVisible,
   onComplete,
   delay,
-}: { testimonial: (typeof testimonials)[0]; isVisible: boolean; onComplete: () => void; delay: number }) {
-  const [show, setShow] = useState(false)
-  const [typingComplete, setTypingComplete] = useState(false)
+}: {
+  testimonial: (typeof testimonials)[0];
+  isVisible: boolean;
+  onComplete: () => void;
+  delay: number;
+}) {
+  const [show, setShow] = useState(false);
+  const [typingComplete, setTypingComplete] = useState(false);
 
   useEffect(() => {
     if (isVisible) {
-      const timer = setTimeout(() => setShow(true), delay)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => setShow(true), delay);
+      return () => clearTimeout(timer);
     }
-  }, [isVisible, delay])
+  }, [isVisible, delay]);
 
   const handleTypingComplete = useCallback(() => {
-    setTypingComplete(true)
-    onComplete()
-  }, [onComplete])
+    setTypingComplete(true);
+    onComplete();
+  }, [onComplete]);
 
   return (
     <div
-      className={`rounded-xl bg-white shadow-lg dark:bg-gray-800 dark:border dark:border-gray-700 transition-all duration-1000 overflow-hidden transform ${
-        show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-      }`}
+      className={`rounded-xl bg-white shadow-lg dark:bg-gray-800 dark:border dark:border-gray-700 transition-all duration-1000 overflow-hidden transform ${show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}
     >
       <div className="p-8 relative">
         <Quote className="absolute top-6 right-6 h-10 w-10 text-blue-100 dark:text-blue-900/50" />
@@ -115,52 +127,69 @@ function TestimonialCard({
             </AvatarFallback>
           </Avatar>
           <div className="ml-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{testimonial.name}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300">{testimonial.role}</p>
-            <p className="text-xs text-blue-600 dark:text-blue-400">{testimonial.company}</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {testimonial.name}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              {testimonial.role}
+            </p>
+            <p className="text-xs text-blue-600 dark:text-blue-400">
+              {testimonial.company}
+            </p>
           </div>
         </div>
 
         <StarRating rating={testimonial.rating} />
 
-        <blockquote className="mt-4 text-gray-700 dark:text-gray-300 min-h-[120px]">
+        <blockquote
+          className="mt-4 text-gray-700 dark:text-gray-300 min-h-[120px]"
+          translate="no"
+        >
           {show && !typingComplete && (
             <>
-              "<TypewriterEffect text={testimonial.content} onComplete={handleTypingComplete} />"
+              "
+              <TypewriterEffect
+                text={testimonial.content}
+                onComplete={handleTypingComplete}
+              />
+              "
             </>
           )}
           {show && typingComplete && `"${testimonial.content}"`}
         </blockquote>
       </div>
     </div>
-  )
+  );
 }
 
 export function Testimonials() {
-  const [visibleTestimonials, setVisibleTestimonials] = useState<number[]>([])
+  const [visibleTestimonials, setVisibleTestimonials] = useState<number[]>([]);
 
   const handleTestimonialComplete = useCallback((index: number) => {
     if (index < testimonials.length - 1) {
       setVisibleTestimonials((prev) => {
         if (!prev.includes(index + 1)) {
-          return [...prev, index + 1]
+          return [...prev, index + 1];
         }
-        return prev
-      })
+        return prev;
+      });
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setVisibleTestimonials([0]) // Show the first testimonial on mount
-  }, [])
+    setVisibleTestimonials([0]); // Show the first testimonial on mount
+  }, []);
 
   return (
     <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-800 dark:to-indigo-800">
       <div className="container px-4 md:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-white mb-4">What Our Students Say</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-white mb-4">
+            What Our Students Say
+          </h2>
           <p className="text-blue-100 max-w-2xl mx-auto">
-            Hear from our community of learners who have transformed their careers with LearnHub
+            Hear from our community of learners who have transformed their
+            careers with LearnHub
           </p>
         </div>
 
@@ -177,6 +206,5 @@ export function Testimonials() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-
