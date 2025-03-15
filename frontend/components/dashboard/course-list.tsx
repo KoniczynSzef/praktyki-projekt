@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -25,15 +25,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Course } from "@/app/types/course";
 import { getAllCourses } from "@/api/courses/get-all-courses";
+import { deleteCourse } from "@/api/courses/delete-course";
+import { AuthContext } from "@/auth/context/auth-context";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const formatter = new Intl.DateTimeFormat("en-us", {
   dateStyle: "medium",
 });
 
 export function CourseList() {
+  const { user } = useContext(AuthContext);
   const [courses, setCourses] = useState<Course[]>([]);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [courseToDelete, setCourseToDelete] = useState<string | null>(null);
+  const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     async function handleGetAllCourses() {
@@ -43,28 +50,36 @@ export function CourseList() {
     handleGetAllCourses();
   }, []);
 
-  const handleEdit = (courseId: string) => {};
-
   const handleDeleteClick = (courseId: string) => {
     setCourseToDelete(courseId);
     setShowDeleteDialog(true);
   };
 
   const handleDeleteConfirm = async () => {
-    // if (courseToDelete) {
-    //   try {
-    //     // Here you would typically make an API call to delete the course
-    //     console.log("Deleting course:", courseToDelete);
-    //     // Simulate API call
-    //     await new Promise((resolve) => setTimeout(resolve, 500));
-    //     // After successful deletion, you would typically refresh the course list
-    //   } catch (error) {
-    //     console.error("Error deleting course:", error);
-    //   } finally {
-    //     setShowDeleteDialog(false);
-    //     setCourseToDelete(null);
-    //   }
-    // }
+    if (courseToDelete) {
+      try {
+        if (!user || !courseToDelete) {
+          return;
+        }
+
+        await deleteCourse(user.id, courseToDelete);
+        toast({
+          title: "Course deleted!",
+          description: `Course was successfully deleted.`,
+        });
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 250);
+      } catch (error) {
+        toast({
+          title: "Something went wrong during deleting course.",
+        });
+      } finally {
+        setShowDeleteDialog(false);
+        setCourseToDelete(null);
+      }
+    }
   };
 
   return (
@@ -126,14 +141,6 @@ export function CourseList() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleEdit(course.id)}
-                    className="text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-zinc-800"
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
                   <Button
                     variant="ghost"
                     size="icon"
